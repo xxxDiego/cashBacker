@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/home"
+        android:icon="@drawable/baseline_home_24"
+        android:title="@string/app_menu_home" />
+    <item
+        android:id="@+id/atividades"
+        android:icon="@drawable/baseline_credit_score_24"
+        android:title="@string/app_menu_atividades" />
+    <item
+        android:id="@+id/notificacoes"
+        android:icon="@drawable/baseline_notifications_24"
+        android:title="@string/app_menu_notificacoes" />
+    <item
+        android:id="@+id/mais"
+        android:icon="@drawable/baseline_menu_24"
+        android:title="@string/app_menu_mais" />
+</menu>

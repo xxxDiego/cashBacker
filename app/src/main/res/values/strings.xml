@@ -1,0 +1,65 @@
+<resources>
+    <string name="app_name">omnifidelidade</string>
+
+    <!-- Common -->
+    <string name="common_next">Próximo</string>
+    <string name="common_finish">Avançar</string>
+
+    <!-- App Menu -->
+    <string name="app_menu_home">Home</string>
+    <string name="app_menu_atividades">Atividades</string>
+    <string name="app_menu_notificacoes">Notificacoes</string>
+    <string name="app_menu_mais">Mais</string>
+
+    <string name="menu_search">Search</string>
+    <string name="menu_sort">Sort</string>
+
+    <string name="bonus_screen_title">Bônus</string>
+    <string name="characters_no_results_found">No results found</string>
+
+    <string name="notificacoes_screen_title">Notificações</string>
+
+    <string name="details_comics_category">Comics</string>
+
+    <string name="atividades_screen_title">Atividades</string>
+    <string name="favorites_no_products_in_the_list">No heroes in the favorite list</string>
+
+    <!-- Start Fragment -->
+    <string name="start_action_bar_title"></string>
+    <string name="start_button_text_start">Começar</string>
+
+    <!-- Profile Fragment -->
+    <string name="profile_action_bar_title">Bônus</string>
+    <string name="profile_text_welcome">%1$s, Bem Vindo!</string>
+
+    <!-- Login Fragment -->
+    <string name="login_action_bar_title"></string>
+    <string name="login_input_layout_hint_username">Login</string>
+    <string name="login_input_layout_hint_password">Senha</string>
+    <string name="login_button_text_sign_in">Entrar</string>
+    <string name="login_button_text_sign_up">Criar nova conta</string>
+    <string name="login_input_layout_error_celular">Celular Inválido!</string>
+
+    <!-- Profile Data -->
+    <string name="profile_data_screen_title">Criar Conta</string>
+    <string name="profile_data_input_layout_hint_nome">Nome</string>
+    <string name="profile_data_input_layout_hint_celular">Celular</string>
+    <string name="profile_data_input_layout_hint_cpf">CPF</string>
+    <string name="profile_data_input_layout_hint_email">Email</string>
+    <string name="profile_data_input_layout_hint_datanascimento">Data de Nascimento</string>
+
+    <string name="profile_data_input_layout_error_nome">Nome Inválido!</string>
+    <string name="profile_data_input_layout_error_celular">Celular Inválido!</string>
+    <string name="profile_data_input_layout_error_cpf">CPF Inválido!</string>
+    <string name="profile_data_input_layout_error_email">Email Inválido!</string>
+    <string name="profile_data_input_layout_error_datanascimento">Data de Nascimento Inválida!</string>
+
+    <!-- Choose Credentials -->
+    <string name="choose_credentials_screen_title">PIN</string>
+    <string name="choose_credentials_input_layout_error_pin">PIN Inválido</string>
+    <string name="choose_credentials_text_name">%1$s, Bem Vindo!</string>
+
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+</resources>

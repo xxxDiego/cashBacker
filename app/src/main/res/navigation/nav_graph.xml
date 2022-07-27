@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/loginFragment">
+
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.astetech.omnifidelidade.ui.login.LoginFragment"
+        android:label="@string/login_action_bar_title"
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_loginFragment_to_profileDataFragment"
+            app:destination="@id/profileDataFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_bonus"
+            app:destination="@id/home" />
+    </fragment>
+    <fragment
+        android:id="@+id/profileDataFragment"
+        android:name="com.astetech.omnifidelidade.ui.registration.profiledata.ProfileDataFragment"
+        android:label="@string/profile_data_screen_title"
+        tools:layout="@layout/fragment_profile_data">
+        <action
+            android:id="@+id/action_profileDataFragment_to_chooseCredentialsFragment"
+            app:destination="@id/chooseCredentialsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/chooseCredentialsFragment"
+        android:name="com.astetech.omnifidelidade.ui.registration.choosecredencials.ChooseCredentialsFragment"
+        android:label="@string/choose_credentials_screen_title"
+        tools:layout="@layout/fragment_choose_credentials">
+        <action
+            android:id="@+id/action_chooseCredentialsFragment_to_bonus"
+            app:destination="@id/home"
+            app:popUpTo="@id/loginFragment" />
+    </fragment>
+    <include app:graph="@navigation/notificacoes" />
+    <include app:graph="@navigation/bonus" />
+    <include app:graph="@navigation/atividades" />
+</navigation>

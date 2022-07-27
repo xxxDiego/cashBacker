@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/home"
+    app:startDestination="@id/bonusFragment">
+
+    <fragment
+        android:id="@+id/bonusFragment"
+        android:name="com.astetech.omnifidelidade.ui.bonus.BonusFragment"
+        android:label="@string/bonus_screen_title"
+        tools:layout="@layout/fragment_bonus" />
+</navigation>
