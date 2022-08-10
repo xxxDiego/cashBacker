@@ -15,4 +15,16 @@ class AtividadesFragment : Fragment() {
     ): View? {
         return inflater.inflate(R.layout.fragment_atividades, container, false)
     }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+
+//        val myDataset = Datasource().loadCashBacks()
+//
+//        val recyclerView = view.findViewById<RecyclerView>(R.id.recycler_view)
+//        recyclerView.adapter = CashbackAdapter(myDataset)
+//
+//        recyclerView.setHasFixedSize(true)
+    }
 }

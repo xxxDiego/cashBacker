@@ -20,7 +20,9 @@
             android:layout_height="wrap_content"
             android:inputType="phone"
             android:imeOptions="actionNext"
-            android:singleLine="true" />
+            android:singleLine="true"
+            android:focusable="false"
+            />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout

@@ -64,7 +64,7 @@ class LoginFragment : Fragment() {
                     directions = null
                 }
                 is LoginViewModel.AuthenticationState.NotFound -> {
-                   directions = LoginFragmentDirections.actionLoginFragmentToProfileDataFragment()
+                   directions = LoginFragmentDirections.actionLoginFragmentToProfileDataFragment(binding.inputCelular.text.toString())
                 }
                 else -> {
                     directions = null

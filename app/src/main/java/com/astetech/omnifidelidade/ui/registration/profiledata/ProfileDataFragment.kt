@@ -11,6 +11,7 @@ import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.astetech.omnifidelidade.databinding.FragmentProfileDataBinding
 import com.astetech.omnifidelidade.extensions.dismissError
 import com.astetech.omnifidelidade.extensions.navigateWithAnimations
@@ -22,6 +23,8 @@ import com.google.android.material.textfield.TextInputLayout
 
 class ProfileDataFragment : Fragment() {
     private val registrationViewModel: RegistrationViewModel by activityViewModels()
+
+    private val args: ProfileDataFragmentArgs by navArgs()
 
     private var _binding:  FragmentProfileDataBinding? = null
     private val binding get() = _binding!!
@@ -46,6 +49,8 @@ class ProfileDataFragment : Fragment() {
         val validationFields = initValidationFields()
         listenToRegistrationStateEvent(validationFields)
         registerViewListeners()
+
+        binding.inputCelular.setText(args.celular)
     }
 
     private fun initValidationFields() = mapOf(
@@ -61,7 +66,6 @@ class ProfileDataFragment : Fragment() {
             when (registrationState) {
 
                 is RegistrationViewModel.RegistrationState.CollectCredentials -> {
-                    val name = binding.inputNome.text.toString()
                     directions = ProfileDataFragmentDirections
                         .actionProfileDataFragmentToChooseCredentialsFragment()
                 }
