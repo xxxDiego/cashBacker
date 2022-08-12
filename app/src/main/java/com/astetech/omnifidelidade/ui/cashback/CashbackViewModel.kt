@@ -16,7 +16,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.io.IOException
 
-class CashbackViewModel : ViewModel() {
+class CashbackViewModel() : ViewModel() {
 
     private val TAG = "CashbackViewModel"
 
@@ -35,8 +35,15 @@ class CashbackViewModel : ViewModel() {
 
 
     init {
-        refreshDataFromNetwork()
+       refreshDataFromNetwork()
+      //  refreshDataFromLocalData()
     }
+
+//    private fun refreshDataFromLocalData(){
+//         cashbackDao.getAll().apply {
+//
+//         }
+//    }
 
     private fun refreshDataFromNetwork() = viewModelScope.launch {
         try {
@@ -75,3 +82,15 @@ class CashbackViewModel : ViewModel() {
         }
     }
 }
+
+//class CashbackViewModelFactory(
+//    private val cashbackDao: CashbackDao
+//) : ViewModelProvider.Factory {
+//    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+//        if (modelClass.isAssignableFrom(CashbackViewModel::class.java)) {
+//            @Suppress("UNCHECKED_CAST")
+//            return CashbackViewModel(cashbackDao) as T
+//        }
+//        throw IllegalArgumentException("Unknown ViewModel class")
+//    }
+//}

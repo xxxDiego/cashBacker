@@ -25,8 +25,10 @@ fun NetworkCashbackContainer.asDomainModel(): List<Cashback> {
             id = 1,
             image = R.drawable.nb,
             empresa = networkCashback.grupo,
-            valor = "R$:" + networkCashback.bonusGerado,
+            valor = "R$: " + String.format("%.2f", networkCashback.bonusGerado).replace(".", ","),
             dataValidade = networkCashback.validoAte,
-            dataCompra = networkCashback.dataCompra)
+            dataCompra = networkCashback.dataCompra,
+            imageUrl =
+            "https://newbalance.vteximg.com.br/assets/vtex.file-manager-graphql/images/new-nb-logo___10afc1c8af26033b6fd063d0a7ec1199.png")
     }
 }

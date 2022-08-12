@@ -9,42 +9,42 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import com.astetech.omnifidelidade.R
+import com.astetech.omnifidelidade.databinding.FragmentCashbackListBinding
 import com.astetech.omnifidelidade.models.Cashback
 import com.astetech.omnifidelidade.ui.login.LoginViewModel
 
 class CashbackListFragment : Fragment() {
+
     private val viewModel: LoginViewModel by activityViewModels()
+    private val cashbackviewModel: CashbackViewModel by activityViewModels()
 
-    private val bonusviewModel: CashbackViewModel by activityViewModels()
+    private var _binding: FragmentCashbackListBinding? = null
+    private val binding get() = _binding!!
 
-
-
-    //private lateinit var myDataset: List<Cashback>
-
+    private val cashbackAdapter = CashbackAdapter()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_cashback_list, container, false)
-    }
+    )= FragmentCashbackListBinding.inflate(
+        inflater,
+        container,
+        false
+    ).apply {
+        _binding = this
+    }.root
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        //val navController = findNavController()
 
+        initCashbackAdapter()
 
-
-        val recyclerView = view.findViewById<RecyclerView>(R.id.recycler_view)
-
-        bonusviewModel.playlist.observe(viewLifecycleOwner, Observer<List<Cashback>> { bonus ->
+        cashbackviewModel.playlist.observe(viewLifecycleOwner, Observer<List<Cashback>> { bonus ->
             bonus?.apply {
-
-                recyclerView.adapter = CashbackAdapter(bonus)
+                cashbackAdapter.submitList(this)
             }
         })
 
-        //val textProfileWelcome = view.findViewById<TextView>(R.id.textProfileWelcome)
 
         viewModel.authenticationStateEvent.observe(viewLifecycleOwner, Observer { authenticationState ->
             when (authenticationState) {
@@ -57,5 +57,12 @@ class CashbackListFragment : Fragment() {
                 else -> {}
             }
         })
+    }
+
+    private fun initCashbackAdapter() {
+        with(binding.recyclerView) {
+            setHasFixedSize(true)
+            adapter = cashbackAdapter
+        }
     }
 }
