@@ -6,10 +6,11 @@ import androidx.recyclerview.widget.ListAdapter
 import com.astetech.omnifidelidade.models.Cashback
 
 
-class CashbackAdapter : ListAdapter<Cashback, CashbackViewHolder>(diffCallback){
+class CashbackAdapter(private val clickListener: CashbackClickListener) :
+     ListAdapter<Cashback, CashbackViewHolder>(diffCallback){
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CashbackViewHolder {
-        return CashbackViewHolder.create(parent)
+        return CashbackViewHolder.create(parent, clickListener)
     }
 
     override fun onBindViewHolder(holder: CashbackViewHolder, position: Int) {
@@ -35,4 +36,8 @@ class CashbackAdapter : ListAdapter<Cashback, CashbackViewHolder>(diffCallback){
             }
         }
     }
+}
+
+interface CashbackClickListener {
+    fun onClick(cashback: Cashback)
 }

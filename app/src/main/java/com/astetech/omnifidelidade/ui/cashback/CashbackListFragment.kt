@@ -7,13 +7,13 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.RecyclerView
-import com.astetech.omnifidelidade.R
+import androidx.navigation.NavController
+import androidx.navigation.fragment.findNavController
 import com.astetech.omnifidelidade.databinding.FragmentCashbackListBinding
 import com.astetech.omnifidelidade.models.Cashback
 import com.astetech.omnifidelidade.ui.login.LoginViewModel
 
-class CashbackListFragment : Fragment() {
+class CashbackListFragment : Fragment(), CashbackClickListener {
 
     private val viewModel: LoginViewModel by activityViewModels()
     private val cashbackviewModel: CashbackViewModel by activityViewModels()
@@ -21,7 +21,11 @@ class CashbackListFragment : Fragment() {
     private var _binding: FragmentCashbackListBinding? = null
     private val binding get() = _binding!!
 
-    private val cashbackAdapter = CashbackAdapter()
+    private val cashbackAdapter = CashbackAdapter(this)
+
+    private val navController: NavController by lazy {
+        findNavController()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,6 +37,15 @@ class CashbackListFragment : Fragment() {
     ).apply {
         _binding = this
     }.root
+
+    override fun onClick(cashback: Cashback) {
+
+
+
+        var directions = CashbackListFragmentDirections.actionBonusFragmentToCashbackDetailFragment(cashback)
+        navController.navigate(directions)
+
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -65,4 +78,5 @@ class CashbackListFragment : Fragment() {
             adapter = cashbackAdapter
         }
     }
+
 }

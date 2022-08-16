@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "67d81d25c229d2e4997123c028b9c121",
+    "identityHash": "db008968b511f52ac85fc83a73cee4ed",
     "entities": [
       {
         "tableName": "cashback",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `image` INTEGER, `imageUrl` TEXT NOT NULL, `empresa` TEXT NOT NULL, `valor` TEXT NOT NULL, `data_validade` TEXT NOT NULL, `data_compra` TEXT NOT NULL, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `image` INTEGER, `imageUrl` TEXT NOT NULL, `empresa` TEXT NOT NULL, `loja` TEXT NOT NULL, `valor` TEXT NOT NULL, `valorCompra` TEXT NOT NULL, `valorUtilizado` TEXT NOT NULL, `data_validade` TEXT NOT NULL, `data_compra` TEXT NOT NULL, PRIMARY KEY(`id`))",
         "fields": [
           {
             "fieldPath": "id",
@@ -33,8 +33,26 @@
             "notNull": true
           },
           {
+            "fieldPath": "loja",
+            "columnName": "loja",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
             "fieldPath": "valor",
             "columnName": "valor",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "valorCompra",
+            "columnName": "valorCompra",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "valorUtilizado",
+            "columnName": "valorUtilizado",
             "affinity": "TEXT",
             "notNull": true
           },
@@ -64,7 +82,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '67d81d25c229d2e4997123c028b9c121')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'db008968b511f52ac85fc83a73cee4ed')"
     ]
   }
 }

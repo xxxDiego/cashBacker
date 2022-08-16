@@ -8,8 +8,8 @@
     <fragment
         android:id="@+id/bonusFragment"
         android:name="com.astetech.omnifidelidade.ui.cashback.CashbackListFragment"
-        android:label="@string/bonus_screen_title"
-        tools:layout="@layout/fragment_cashback_list" >
+        android:label="@string/cashback_screen_title"
+        tools:layout="@layout/fragment_cashback_list">
         <action
             android:id="@+id/action_bonusFragment_to_cashbackDetailFragment"
             app:destination="@id/cashbackDetailFragment" />
@@ -17,5 +17,10 @@
     <fragment
         android:id="@+id/cashbackDetailFragment"
         android:name="com.astetech.omnifidelidade.ui.cashback.CashbackDetailFragment"
-        android:label="CashbackDetailFragment" />
+        android:label="@string/cashback_datail_screen_title">
+        <argument
+            android:name="cashback"
+            app:argType="com.astetech.omnifidelidade.models.Cashback"
+           />
+    </fragment>
 </navigation>

@@ -8,7 +8,7 @@ import com.google.gson.annotations.SerializedName
 data class NetworkCashbackContainer(val videos: List<NetworkCashback>)
 
 data class NetworkCashback(
-    @field:SerializedName("loja") val loja :String,
+    @field:SerializedName("loja") val loja: String,
     @field:SerializedName("codLoja") val codLoja: String,
     @field:SerializedName("grupo") val grupo: String,
     @field:SerializedName("valorCompra") val valorCompra: Double,
@@ -29,6 +29,12 @@ fun NetworkCashbackContainer.asDomainModel(): List<Cashback> {
             dataValidade = networkCashback.validoAte,
             dataCompra = networkCashback.dataCompra,
             imageUrl =
-            "https://newbalance.vteximg.com.br/assets/vtex.file-manager-graphql/images/new-nb-logo___10afc1c8af26033b6fd063d0a7ec1199.png")
+            "https://newbalance.vteximg.com.br/assets/vtex.file-manager-graphql/images/new-nb-logo___10afc1c8af26033b6fd063d0a7ec1199.png",
+            loja = networkCashback.loja,
+            valorCompra = "R$: " + String.format("%.2f", networkCashback.valorCompra)
+                .replace(".", ","),
+            valorUtilizado = "R$: " + String.format("%.2f", networkCashback.bonusUtilizado)
+                .replace(".", ","),
+        )
     }
 }

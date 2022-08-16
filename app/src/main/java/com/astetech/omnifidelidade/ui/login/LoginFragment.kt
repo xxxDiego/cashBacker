@@ -13,7 +13,6 @@ import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
 import com.astetech.omnifidelidade.databinding.FragmentLoginBinding
 import com.astetech.omnifidelidade.extensions.dismissError
-import com.astetech.omnifidelidade.extensions.navigateWithAnimations
 import com.github.rtoshiro.util.format.SimpleMaskFormatter
 import com.github.rtoshiro.util.format.text.MaskTextWatcher
 import com.google.android.material.textfield.TextInputLayout

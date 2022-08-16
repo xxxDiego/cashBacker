@@ -24,13 +24,13 @@
             tools:text="Shopping Morumbi"/>
 
         <View
+            android:id="@+id/view"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
             android:background="?attr/dividerHorizontal"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/name"/>
+            app:layout_constraintTop_toBottomOf="@id/name" />
 
         <TextView
             android:id="@+id/description"
@@ -41,6 +41,54 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/name"
             tools:text="New Balance"/>
+
+        <TextView
+            android:id="@+id/valorCompra"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+            app:layout_constraintTop_toBottomOf="@+id/description"
+            tools:text="Compra: R$ 900,00" />
+
+
+        <TextView
+            android:id="@+id/dataCompra"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+            app:layout_constraintTop_toBottomOf="@+id/valorCompra"
+            tools:text="13/05/2022" />
+
+        <TextView
+            android:id="@+id/valorCashback"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+            app:layout_constraintTop_toBottomOf="@+id/dataCompra"
+            tools:text="Cashback: R$ 90,00" />
+
+        <TextView
+            android:id="@+id/dataValidade"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+            app:layout_constraintTop_toBottomOf="@+id/valorCashback"
+            tools:text="validade: 13/05/2022" />
+
+        <TextView
+            android:id="@+id/valorCashbackUtilizado"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+            app:layout_constraintTop_toBottomOf="@+id/dataValidade"
+            tools:text="Utilizado: R$ 90,00" />
+
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

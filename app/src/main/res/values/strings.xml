@@ -28,9 +28,13 @@
     <string name="start_action_bar_title"></string>
     <string name="start_button_text_start">Começar</string>
 
-    <!-- Bonus Fragment -->
-    <string name="bonus_screen_title">Bônus Ativos</string>
-    <string name="profile_text_welcome">%1$s, Bem Vindo!</string>
+    <!-- cashback Fragment -->
+    <string name="cashback_screen_title">CashBacks Ativos</string>
+
+
+    <!-- cashback detail Fragment -->
+    <string name="cashback_datail_screen_title">CashBack</string>
+
 
     <!-- Login Fragment -->
     <string name="login_action_bar_title"></string>
