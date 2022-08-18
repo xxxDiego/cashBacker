@@ -8,6 +8,7 @@
     tools:context=".ui.MainActivity">
 
     <androidx.appcompat.widget.Toolbar
+        style="@style/Widget.MaterialComponents.Toolbar.PrimarySurface"
         android:id="@+id/toolbar_app"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
@@ -15,8 +16,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:title="teste"
-        app:titleTextColor="@android:color/white" />
+        app:title="teste"/>
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/nav_host_fragment"

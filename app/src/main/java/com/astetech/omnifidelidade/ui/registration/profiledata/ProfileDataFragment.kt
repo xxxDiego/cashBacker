@@ -49,6 +49,7 @@ class ProfileDataFragment : Fragment() {
         val validationFields = initValidationFields()
         listenToRegistrationStateEvent(validationFields)
         registerViewListeners()
+        cancelAuthentication()
 
         binding.inputCelular.setText(args.celular)
     }
@@ -117,6 +118,15 @@ class ProfileDataFragment : Fragment() {
         binding.inputDataNascimento.addTextChangedListener {
             binding.inputLayoutDataNascimento.dismissError()
         }
+    }
+
+    private fun cancelAuthentication() {
+        registrationViewModel.refuseAuthentication()
+        binding.inputLayoutNome.dismissError()
+        binding.inputLayoutCelular.dismissError()
+        binding.inputLayoutCpf.dismissError()
+        binding.inputLayoutEmail.dismissError()
+        binding.inputLayoutDataNascimento.dismissError()
     }
 
     override fun onDestroyView() {

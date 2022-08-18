@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.astetech.omnifidelidade.R
+import com.astetech.omnifidelidade.ui.login.LoginViewModel
 
 class RegistrationViewModel : ViewModel() {
 
@@ -86,6 +87,10 @@ class RegistrationViewModel : ViewModel() {
             return false
         }
         return true
+    }
+
+    fun refuseAuthentication() {
+        _registrationStateEvent.value = RegistrationState.CollectProfileData
     }
 
     fun userCancelledRegistration() : Boolean {

@@ -12,6 +12,11 @@ import androidx.navigation.fragment.findNavController
 import com.astetech.omnifidelidade.databinding.FragmentCashbackListBinding
 import com.astetech.omnifidelidade.models.Cashback
 import com.astetech.omnifidelidade.ui.login.LoginViewModel
+import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.util.*
 
 class CashbackListFragment : Fragment(), CashbackClickListener {
 
@@ -39,12 +44,8 @@ class CashbackListFragment : Fragment(), CashbackClickListener {
     }.root
 
     override fun onClick(cashback: Cashback) {
-
-
-
         var directions = CashbackListFragmentDirections.actionBonusFragmentToCashbackDetailFragment(cashback)
         navController.navigate(directions)
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -52,12 +53,18 @@ class CashbackListFragment : Fragment(), CashbackClickListener {
 
         initCashbackAdapter()
 
+        cashbackviewModel.refreshDataFromNetwork()
+
         cashbackviewModel.playlist.observe(viewLifecycleOwner, Observer<List<Cashback>> { bonus ->
             bonus?.apply {
-                cashbackAdapter.submitList(this)
+
+                val filtered = this.filter{ c ->  stringToLocalDate(c.dataValidade) > obterDataCorrente()}
+
+                filtered.let {
+                    cashbackAdapter.submitList(it)
+                }
             }
         })
-
 
         viewModel.authenticationStateEvent.observe(viewLifecycleOwner, Observer { authenticationState ->
             when (authenticationState) {
@@ -77,6 +84,17 @@ class CashbackListFragment : Fragment(), CashbackClickListener {
             setHasFixedSize(true)
             adapter = cashbackAdapter
         }
+    }
+
+    private fun obterDataCorrente(): LocalDate{
+        val current = LocalDateTime.now()
+        val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
+        var date =  current.format(formatter)
+        return LocalDate.parse(date, DateTimeFormatter.ofPattern("dd/MM/yyyy"))
+    }
+
+    private fun stringToLocalDate (data: String): LocalDate{
+        return LocalDate.parse(data, DateTimeFormatter.ofPattern("dd/MM/yyyy"))
     }
 
 }

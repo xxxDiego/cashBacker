@@ -51,7 +51,14 @@ class MainActivity : AppCompatActivity() {
             }
 
             val isSemMenu = semMenu.contains(destination.id)
+
             binding.bottomNavMain.visibility =  if(isSemMenu){
+                View.GONE
+            } else {
+                View.VISIBLE
+            }
+
+            binding.toolbarApp.visibility =  if(destination.id == R.id.loginFragment){
                 View.GONE
             } else {
                 View.VISIBLE
