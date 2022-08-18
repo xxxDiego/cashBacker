@@ -7,7 +7,20 @@
 
     <fragment
         android:id="@+id/atividadesFragment"
-        android:name="com.astetech.omnifidelidade.ui.atividades.AtividadesFragment"
+        android:name="com.astetech.omnifidelidade.ui.atividades.AtividadesListFragment"
         android:label="@string/atividades_screen_title"
-        tools:layout="@layout/fragment_atividades" />
+        tools:layout="@layout/fragment_atividades_list" >
+        <action
+            android:id="@+id/action_atividadesFragment_to_atividadesDetailFragment"
+            app:destination="@id/atividadesDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/atividadesDetailFragment"
+        android:name="com.astetech.omnifidelidade.ui.atividades.AtividadesDetailFragment"
+        android:label="AtividadesDetailFragment" >
+    <argument
+        android:name="cashback"
+        app:argType="com.astetech.omnifidelidade.models.Cashback"
+        />
+    </fragment>
 </navigation>

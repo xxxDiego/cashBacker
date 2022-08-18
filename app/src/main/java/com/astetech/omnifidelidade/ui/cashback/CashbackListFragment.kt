@@ -60,9 +60,14 @@ class CashbackListFragment : Fragment(), CashbackClickListener {
 
                 val filtered = this.filter{ c ->  stringToLocalDate(c.dataValidade) > obterDataCorrente()}
 
-                filtered.let {
-                    cashbackAdapter.submitList(it)
+                if (filtered.isNotEmpty()){
+                    _binding?.contentImage?.visibility = View.GONE
+                    cashbackAdapter.submitList(filtered)
                 }
+                else{
+                   _binding?.contentImage?.visibility = View.VISIBLE
+                }
+
             }
         })
 

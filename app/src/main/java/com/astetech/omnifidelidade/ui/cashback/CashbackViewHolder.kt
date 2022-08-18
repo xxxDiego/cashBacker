@@ -23,6 +23,8 @@ class CashbackViewHolder(
     private val card = cashbackItemBinding.card
 
 
+
+
     fun bind(cashback: Cashback) {
 
         empresaText.text = cashback.empresa
@@ -36,6 +38,8 @@ class CashbackViewHolder(
             placeholder(R.drawable.loading_img)
             error(R.drawable.nb)
         }
+
+
 
         card.setOnClickListener {
             clickListener.onClick(cashback)
