@@ -101,7 +101,7 @@ class LoginFragment : Fragment() {
                     is Resultado.Sucesso -> {
                         resultado.data?.let { cliente ->
                             if(cliente.cadastrado){
-                                Config.clienteId = cliente.clienteId
+                                Config.clienteId = cliente.clienteId.toString()
                             }
                             cliente.cadastrado
                         } ?: false

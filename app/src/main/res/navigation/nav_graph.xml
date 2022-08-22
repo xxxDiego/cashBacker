@@ -40,6 +40,10 @@
             android:id="@+id/action_chooseCredentialsFragment_to_bonus"
             app:destination="@id/home"
             app:popUpTo="@id/loginFragment" />
+        <argument
+            android:name="cliente"
+            app:argType="com.astetech.omnifidelidade.models.Cliente"
+            app:nullable="false" />
     </fragment>
     <include app:graph="@navigation/notificacoes" />
     <include app:graph="@navigation/cashback" />

@@ -12,9 +12,12 @@ import androidx.navigation.NavController
 import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.paging.Config
+import com.astetech.omnifidelidade.BuildConfig
 import com.astetech.omnifidelidade.databinding.FragmentProfileDataBinding
 import com.astetech.omnifidelidade.extensions.dismissError
 import com.astetech.omnifidelidade.extensions.navigateWithAnimations
+import com.astetech.omnifidelidade.models.Cliente
 import com.astetech.omnifidelidade.ui.registration.RegistrationViewModel
 import com.astetech.omnifidelidade.util.Mask
 import com.github.rtoshiro.util.format.SimpleMaskFormatter
@@ -65,10 +68,9 @@ class ProfileDataFragment : Fragment() {
     private fun listenToRegistrationStateEvent(validationFields: Map<String, TextInputLayout>) {
         registrationViewModel.registrationStateEvent.observe(viewLifecycleOwner, Observer { registrationState ->
             when (registrationState) {
-
                 is RegistrationViewModel.RegistrationState.CollectCredentials -> {
                     directions = ProfileDataFragmentDirections
-                        .actionProfileDataFragmentToChooseCredentialsFragment()
+                        .actionProfileDataFragmentToChooseCredentialsFragment(registrationViewModel.cliente)
                 }
                 is RegistrationViewModel.RegistrationState.InvalidProfileData -> {
                     registrationState.fields.forEach { fieldError ->
@@ -88,6 +90,8 @@ class ProfileDataFragment : Fragment() {
             val cpf = binding.inputCpf.text.toString()
             val email = binding.inputEmail.text.toString()
             val dataNascimento = binding.inputDataNascimento.text.toString()
+
+
             registrationViewModel.collectProfileData(nome, celular, cpf, email, dataNascimento)
 
             if (directions != null) {

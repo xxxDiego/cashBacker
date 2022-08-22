@@ -53,12 +53,12 @@ class CashbackViewModel() : ViewModel() {
 
             val callback = FidelidadeNetwork.fidelidade.buscarCashback(Config.token,Config.tenant, Config.clienteId,filtroBonus, dataInicio, dataFim)
 
-            callback.enqueue(object : Callback<List<NetworkCashback>> {
-                override fun onFailure(call: Call<List<NetworkCashback>>, t: Throwable) {
+            callback.enqueue(object : Callback<List<CashbackNetwork>> {
+                override fun onFailure(call: Call<List<CashbackNetwork>>, t: Throwable) {
                     Log.e(TAG,t.message.toString())
                 }
 
-                override fun onResponse(call: Call<List<NetworkCashback>>, response: Response<List<NetworkCashback>>) {
+                override fun onResponse(call: Call<List<CashbackNetwork>>, response: Response<List<CashbackNetwork>>) {
                     if (response.isSuccessful) {
                         response.body()?.let {
                             _playlist.postValue(NetworkCashbackContainer(it).asDomainModel())

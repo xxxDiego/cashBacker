@@ -60,7 +60,7 @@ class LoginViewModel() : ViewModel() {
 
     
     fun buscaUsuario(celular: String): LiveData<Resultado<Cliente?>> =
-        repository.buscaCliente(celular, token, tenant)
+        repository.buscaCliente(celular)
 
     private fun isValidForm(usuarioCelular: String): Boolean {
         val invalidFields = arrayListOf<Pair<String, Int>>()
