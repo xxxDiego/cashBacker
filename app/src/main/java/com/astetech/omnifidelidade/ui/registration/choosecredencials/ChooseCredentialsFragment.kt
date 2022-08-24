@@ -51,10 +51,8 @@ class ChooseCredentialsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
-        //binding.textChooseCredentialsName.text = getString(R.string.choose_credentials_text_name, args.name)
-
-
+        val validationFields = initValidationFields()
+        listenToRegistrationStateEvent(validationFields)
         registerViewListeners()
 
     }
@@ -84,7 +82,6 @@ class ChooseCredentialsFragment : Fragment() {
     }
 
     private fun gravaCliente() {
-
         registrationViewModel.gravaCliente().observe(viewLifecycleOwner){
             val cadastrado = it?.let { resultado ->
                 when (resultado) {

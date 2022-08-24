@@ -2,4 +2,5 @@
 <resources>
     <dimen name="screen_default_padding">16dp</dimen>
     <dimen name="forms_default_margin_top">18dp</dimen>
+    <dimen name="margin_between_elements">8dp</dimen>
 </resources>

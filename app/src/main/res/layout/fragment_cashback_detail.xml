@@ -21,7 +21,7 @@
             android:textAppearance="@style/TextAppearance.MaterialComponents.Headline2"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="Shopping Morumbi"/>
+            tools:text="Shopping Morumbi" />
 
         <View
             android:id="@+id/view"

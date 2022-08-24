@@ -10,8 +10,8 @@
     <color name="grey">#EEEEEE</color>
 
 
-    <color name="colorPrimary">#64B5F6</color>
-    <color name="colorPrimaryDark">#ff0099cc</color>
+    <color name="colorPrimary">#3949AB</color>
+    <color name="colorPrimaryDark">#1A237E</color>
     <color name="colorAccent">#FF000000</color>
 
 </resources>

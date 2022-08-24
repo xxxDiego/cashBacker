@@ -29,7 +29,7 @@
     <string name="start_button_text_start">Começar</string>
 
     <!-- cashback Fragment -->
-    <string name="cashback_screen_title">CashBacks Ativos</string>
+    <string name="cashback_screen_title">Home</string>
 
 
     <!-- cashback detail Fragment -->
