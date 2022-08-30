@@ -8,6 +8,10 @@ import androidx.lifecycle.viewModelScope
 import com.astetech.omnifidelidade.models.Cashback
 import com.astetech.omnifidelidade.models.Config
 import com.astetech.omnifidelidade.network.*
+import com.astetech.omnifidelidade.util.CashbackStatus
+import com.astetech.omnifidelidade.util.obterDataCorrente
+import com.astetech.omnifidelidade.util.stringToLocalDate
+
 import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
@@ -18,10 +22,13 @@ class CashbackViewModel() : ViewModel() {
 
     private val TAG = "CashbackViewModel"
 
-    private var _playlist = MutableLiveData<List<Cashback>>()
+    private var _cashbackListLive = MutableLiveData<List<Cashback>>()
+    val cashbackListLive: LiveData<List<Cashback>>
+        get() = _cashbackListLive
 
-    val playlist: LiveData<List<Cashback>>
-        get() = _playlist
+    private var _cashbackList = listOf<Cashback>()
+    val cashbackList: List<Cashback>
+        get() = _cashbackList
 
     private var _eventNetworkError = MutableLiveData<Boolean>(false)
     val eventNetworkError: LiveData<Boolean>
@@ -33,8 +40,8 @@ class CashbackViewModel() : ViewModel() {
 
 
     init {
-       refreshDataFromNetwork()
-      //  refreshDataFromLocalData()
+        refreshDataFromNetwork()
+        //  refreshDataFromLocalData()
     }
 
 //    private fun refreshDataFromLocalData(){
@@ -43,38 +50,91 @@ class CashbackViewModel() : ViewModel() {
 //         }
 //    }
 
+    fun fitroCashback(tipo: CashbackStatus) {
 
-     fun refreshDataFromNetwork() = viewModelScope.launch {
+        val dataCorrente = obterDataCorrente()
+
+        when (tipo) {
+            CashbackStatus.ATIVO -> {
+                val filtered =
+                    _cashbackList.filter { c -> stringToLocalDate(c.dataValidade) >= dataCorrente &&
+                            stringToLocalDate(c.dataAtivacao) <= dataCorrente &&
+                            c.valorUtilizado == 0.0
+                    }
+
+                _cashbackListLive.postValue(filtered)
+            }
+            CashbackStatus.EXPIRADO -> {
+                val filtered =
+                    _cashbackList.filter { c -> stringToLocalDate(c.dataValidade) < dataCorrente &&
+                            c.valorUtilizado == 0.0
+                    }
+                _cashbackListLive.postValue(filtered)
+            }
+            CashbackStatus.RESGATADO -> {
+                val filtered =
+                    _cashbackList.filter { c -> c.valorUtilizado > 0.0 }
+                _cashbackListLive.postValue(filtered)
+            }
+            CashbackStatus.PENDENTE -> {
+                val filtered =
+                    _cashbackList.filter { c -> stringToLocalDate(c.dataAtivacao) > dataCorrente &&
+                        stringToLocalDate(c.dataAtivacao) > dataCorrente &&
+                                c.valorUtilizado == 0.0
+                    }
+                _cashbackListLive.postValue(filtered)
+            }
+            else -> {
+                _cashbackListLive.postValue(_cashbackList)
+            }
+        }
+    }
+
+
+    fun refreshDataFromNetwork() = viewModelScope.launch {
         try {
 
             val filtroBonus = "Todos"
             val dataInicio = "2022-01-01"
             val dataFim = "2022-12-01"
 
-            val callback = FidelidadeNetwork.fidelidade.buscarCashback(Config.token,Config.tenant, Config.clienteId,filtroBonus, dataInicio, dataFim)
+            val callback = FidelidadeNetwork.fidelidade.buscarCashback(
+                Config.token,
+                Config.tenant,
+                Config.clienteId,
+                filtroBonus,
+                dataInicio,
+                dataFim
+            )
 
             callback.enqueue(object : Callback<List<CashbackNetwork>> {
                 override fun onFailure(call: Call<List<CashbackNetwork>>, t: Throwable) {
-                    Log.e(TAG,t.message.toString())
+                    Log.e(TAG, t.message.toString())
                 }
 
-                override fun onResponse(call: Call<List<CashbackNetwork>>, response: Response<List<CashbackNetwork>>) {
+                override fun onResponse(
+                    call: Call<List<CashbackNetwork>>,
+                    response: Response<List<CashbackNetwork>>
+                ) {
                     if (response.isSuccessful) {
                         response.body()?.let {
-                            _playlist.postValue(NetworkCashbackContainer(it).asDomainModel())
+                            var cashbackRetorno = NetworkCashbackContainer(it).asDomainModel()
+
+                            _cashbackList = cashbackRetorno.sortedByDescending { c -> stringToLocalDate(c.dataValidade) }
+                            _cashbackListLive.postValue(_cashbackList)
+
 
                             _eventNetworkError.value = false
                             _isNetworkErrorShown.value = false
                         }
-                    }
-                    else{
+                    } else {
                         Log.e(TAG, response.raw().toString())
                     }
                 }
             })
         } catch (networkError: IOException) {
             // Show a Toast error message and hide the progress bar.
-            Log.e(TAG,networkError.message.toString())
+            Log.e(TAG, networkError.message.toString())
             _eventNetworkError.value = true
         }
     }

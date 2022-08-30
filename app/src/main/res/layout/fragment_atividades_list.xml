@@ -24,6 +24,7 @@
 
             <com.google.android.material.button.MaterialButton
                 style="?attr/materialButtonOutlinedStyle"
+                android:id="@+id/todos"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
@@ -31,6 +32,7 @@
 
             <com.google.android.material.button.MaterialButton
                 style="?attr/materialButtonOutlinedStyle"
+                android:id="@+id/ativos"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
@@ -38,6 +40,7 @@
 
             <com.google.android.material.button.MaterialButton
                 style="?attr/materialButtonOutlinedStyle"
+                android:id="@+id/resgatados"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
@@ -45,6 +48,7 @@
 
             <com.google.android.material.button.MaterialButton
                 style="?attr/materialButtonOutlinedStyle"
+                android:id="@+id/pendentes"
                 android:layout_width="167dp"
                 android:layout_height="49dp"
                 android:layout_marginStart="5dp"
@@ -52,6 +56,7 @@
 
             <com.google.android.material.button.MaterialButton
                 style="?attr/materialButtonOutlinedStyle"
+                android:id="@+id/expirados"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
@@ -87,7 +92,7 @@
                 android:layout_height="match_parent"
                 android:src="@drawable/no_cashback_wide"
                 android:visibility="gone"
-
+                android:scaleType="fitXY"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"

@@ -17,8 +17,10 @@ data class CashbackNetwork(
     @field:SerializedName("bonusUtilizado") val bonusUtilizado: Double,
     @field:SerializedName("dataCompra") val dataCompra: String,
     @field:SerializedName("validoAte") val validoAte: String,
+    @field:SerializedName("vigenteDe") val vigenteDe: String,
     @field:SerializedName("identificadorVenda") val identificadorVenda: String
 )
+
 
 fun NetworkCashbackContainer.asDomainModel(): List<Cashback> {
     return videos.map { networkCashback ->
@@ -26,15 +28,14 @@ fun NetworkCashbackContainer.asDomainModel(): List<Cashback> {
             id = 1,
             image = R.drawable.nb,
             empresa = networkCashback.grupo,
-            valor = "R$: " + String.format("%.2f", networkCashback.bonusGerado).replace(".", ","),
-            dataValidade = networkCashback.validoAte,
-            dataCompra = networkCashback.dataCompra,
+            valor = networkCashback.bonusGerado,
+            dataValidade =  networkCashback.validoAte ,
+            dataAtivacao = networkCashback.validoAte,
+            dataCompra = networkCashback.dataCompra ,
             imageUrl = Config.obterImagem(networkCashback.grupo),
             loja = networkCashback.loja,
-            valorCompra = "R$: " + String.format("%.2f", networkCashback.valorCompra)
-                .replace(".", ","),
-            valorUtilizado = "R$: " + String.format("%.2f", networkCashback.bonusUtilizado)
-                .replace(".", ","),
+            valorCompra =  networkCashback.valorCompra,
+            valorUtilizado = networkCashback.bonusUtilizado
         )
     }
 }

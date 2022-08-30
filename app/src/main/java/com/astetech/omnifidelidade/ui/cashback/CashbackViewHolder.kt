@@ -8,6 +8,8 @@ import coil.load
 import com.astetech.omnifidelidade.R
 import com.astetech.omnifidelidade.databinding.CashbackItemBinding
 import com.astetech.omnifidelidade.models.Cashback
+import com.astetech.omnifidelidade.util.obterDataCorrente
+import com.astetech.omnifidelidade.util.stringToLocalDate
 
 
 class CashbackViewHolder(
@@ -17,29 +19,49 @@ class CashbackViewHolder(
 
     private val empresaText = cashbackItemBinding.empresaText
     private val valorText = cashbackItemBinding.valorText
-    private val dataCompraText = cashbackItemBinding.dataCompraText
-    private val dataValidadeText = cashbackItemBinding.dataValidadeText
+    private val dataAtivacaoText = cashbackItemBinding.dataVigenteDeText
+    private val statusText = cashbackItemBinding.statusText
     private val empresaImage = cashbackItemBinding.empresaImage
     private val card = cashbackItemBinding.card
-
-
-
 
     fun bind(cashback: Cashback) {
 
         empresaText.text = cashback.empresa
-        valorText.text = cashback.valor
-        dataCompraText.text = cashback.dataCompra
-        dataValidadeText.text = cashback.dataValidade
+        valorText.text = "R$: " + String.format("%.2f", cashback.valor).replace(".", ",")
+
+        val validade = stringToLocalDate(cashback.dataValidade)
+        val ativacao = stringToLocalDate(cashback.dataAtivacao)
+        val corrente = obterDataCorrente()
+
+        if (cashback.valorUtilizado > 0){
+            dataAtivacaoText.text = ""
+            statusText.text = "Resgatado"
+            dataAtivacaoText.text = "Resgatado em: " + cashback.dataValidade
+        }
+        else  if (validade < corrente) {
+            dataAtivacaoText.text = ""
+            statusText.text = "Expirado"
+            dataAtivacaoText.text = "Expirado em: " + cashback.dataValidade
+
+        }
+        else{
+
+            if (ativacao > corrente){
+                statusText.text = "Pendente"
+                dataAtivacaoText.text = "Ativo em: " + cashback.dataAtivacao
+            }
+            else{
+                statusText.text = "Ativo"
+                dataAtivacaoText.text = "Válido até " + cashback.dataValidade
+            }
+        }
 
         //coil
         val imgUri = cashback.imageUrl.toUri().buildUpon().scheme("https").build()
         empresaImage.load(imgUri) {
             placeholder(R.drawable.loading_img)
-            error(R.drawable.nb)
+            error(R.drawable.no_img)
         }
-
-
 
         card.setOnClickListener {
             clickListener.onClick(cashback)

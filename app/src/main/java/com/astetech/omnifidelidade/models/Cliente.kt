@@ -4,9 +4,9 @@ import android.os.Parcelable
 import com.astetech.omnifidelidade.extensions.dateToDb
 import com.astetech.omnifidelidade.extensions.removeMask
 import com.astetech.omnifidelidade.network.ClienteNetwork
-import kotlinx.android.parcel.Parcelize
 
-@Parcelize
+
+@kotlinx.parcelize.Parcelize
 data class Cliente (
     val clienteId: String? = null,
     var nomeCliente: String,

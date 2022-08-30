@@ -56,26 +56,26 @@
                 tools:text="R$999.999,00" />
 
             <TextView
-                android:id="@+id/dataCompra_text"
+                android:id="@+id/dataVigenteDe_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
-                android:maxLength="10"
+                android:maxLength="100"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/empresa_image"
                 app:layout_constraintTop_toBottomOf="@+id/empresa_text"
-                tools:text="19/12/21" />
+                tools:text="Valido de: 19/12/21 Até: 19/12/21" />
 
             <TextView
-                android:id="@+id/dataValidade_text"
+                android:id="@+id/status_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
-                android:maxLength="20"
+                android:maxLength="9"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/valor_text"
-                tools:text="Validade: 17/11/21" />
+                tools:text="Resgatado" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

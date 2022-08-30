@@ -42,10 +42,7 @@ class RegistrationViewModel : ViewModel() {
         dataNascimento: String
     ) {
         if (isValidProfileData(nome, celular, cpf, email, dataNascimento)) {
-
-            val data: LocalDate
-
-            this.cliente = Cliente(
+                this.cliente = Cliente(
                 nomeCliente = nome,
                 celular = celular,
                 cpf = cpf,

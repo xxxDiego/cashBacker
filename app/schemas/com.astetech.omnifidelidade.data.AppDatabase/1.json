@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "db008968b511f52ac85fc83a73cee4ed",
+    "identityHash": "4c110e1be3517acb576ff9389a4140f9",
     "entities": [
       {
-        "tableName": "cashback",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `image` INTEGER, `imageUrl` TEXT NOT NULL, `empresa` TEXT NOT NULL, `loja` TEXT NOT NULL, `valor` TEXT NOT NULL, `valorCompra` TEXT NOT NULL, `valorUtilizado` TEXT NOT NULL, `data_validade` TEXT NOT NULL, `data_compra` TEXT NOT NULL, PRIMARY KEY(`id`))",
+        "tableName": "Cashback",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `image` INTEGER, `imageUrl` TEXT NOT NULL, `empresa` TEXT NOT NULL, `loja` TEXT NOT NULL, `valor` REAL NOT NULL, `valorCompra` REAL NOT NULL, `valorUtilizado` REAL NOT NULL, `dataValidade` TEXT NOT NULL, `dataCompra` TEXT NOT NULL, `vigenteDe` TEXT NOT NULL)",
         "fields": [
           {
             "fieldPath": "id",
@@ -41,38 +41,42 @@
           {
             "fieldPath": "valor",
             "columnName": "valor",
-            "affinity": "TEXT",
+            "affinity": "REAL",
             "notNull": true
           },
           {
             "fieldPath": "valorCompra",
             "columnName": "valorCompra",
-            "affinity": "TEXT",
+            "affinity": "REAL",
             "notNull": true
           },
           {
             "fieldPath": "valorUtilizado",
             "columnName": "valorUtilizado",
-            "affinity": "TEXT",
+            "affinity": "REAL",
             "notNull": true
           },
           {
             "fieldPath": "dataValidade",
-            "columnName": "data_validade",
+            "columnName": "dataValidade",
             "affinity": "TEXT",
             "notNull": true
           },
           {
             "fieldPath": "dataCompra",
-            "columnName": "data_compra",
+            "columnName": "dataCompra",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "vigenteDe",
+            "columnName": "vigenteDe",
             "affinity": "TEXT",
             "notNull": true
           }
         ],
         "primaryKey": {
-          "columnNames": [
-            "id"
-          ],
+          "columnNames": [],
           "autoGenerate": false
         },
         "indices": [],
@@ -82,7 +86,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'db008968b511f52ac85fc83a73cee4ed')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '4c110e1be3517acb576ff9389a4140f9')"
     ]
   }
 }
