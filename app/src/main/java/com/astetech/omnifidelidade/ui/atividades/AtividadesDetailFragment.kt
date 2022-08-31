@@ -29,14 +29,15 @@ class AtividadesDetailFragment : Fragment() {
         // Receive the arguments in a variable
         val cashback = args.cashback
 
-        binding.name.text = cashback.loja
-        binding.description.text = cashback.empresa
-        binding.valorCompra.text = "Compra " + cashback.valorCompra
+        binding.loja.text = cashback.loja
+        binding.marca.text = cashback.empresa
+        binding.valorCompra.text = "Compra: " + cashback.valorCompra
         binding.valorCashback.text = "Cashback " + cashback.valor
-        binding.dataCompra.text = "Data " + cashback.dataCompra
-        binding.dataValidade.text = "Validade " + cashback.dataValidade
-        binding.valorCashbackUtilizado.text = "Utilizado " + cashback.valorUtilizado
-
+        binding.dataCompra.text = "Data Compra: " + cashback.dataCompra
+        binding.dataAtivacao.text = "Data de Ativação: " + cashback.dataAtivacao
+        binding.dataValidade.text = "Validade: " + cashback.dataValidade
+        binding.valorCashbackUtilizado.text = "Utilizado: " + cashback.valorUtilizado
+        binding.dataUtilizacao.text = "Utilizado " + cashback.dataValidade
         return view
     }
 

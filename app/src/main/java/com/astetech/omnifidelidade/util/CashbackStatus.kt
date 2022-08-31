@@ -1,5 +1,5 @@
 package com.astetech.omnifidelidade.util
 
 enum class CashbackStatus {
-ATIVO, RESGATADO, PENDENTE, EXPIRADO, TODOS
+ATIVOS, RESGATADOS, PENDENTES, EXPIRADOS, TODOS
 }

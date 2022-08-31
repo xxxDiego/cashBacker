@@ -55,7 +55,7 @@ class CashbackViewModel() : ViewModel() {
         val dataCorrente = obterDataCorrente()
 
         when (tipo) {
-            CashbackStatus.ATIVO -> {
+            CashbackStatus.ATIVOS -> {
                 val filtered =
                     _cashbackList.filter { c -> stringToLocalDate(c.dataValidade) >= dataCorrente &&
                             stringToLocalDate(c.dataAtivacao) <= dataCorrente &&
@@ -64,19 +64,19 @@ class CashbackViewModel() : ViewModel() {
 
                 _cashbackListLive.postValue(filtered)
             }
-            CashbackStatus.EXPIRADO -> {
+            CashbackStatus.EXPIRADOS -> {
                 val filtered =
                     _cashbackList.filter { c -> stringToLocalDate(c.dataValidade) < dataCorrente &&
                             c.valorUtilizado == 0.0
                     }
                 _cashbackListLive.postValue(filtered)
             }
-            CashbackStatus.RESGATADO -> {
+            CashbackStatus.RESGATADOS -> {
                 val filtered =
                     _cashbackList.filter { c -> c.valorUtilizado > 0.0 }
                 _cashbackListLive.postValue(filtered)
             }
-            CashbackStatus.PENDENTE -> {
+            CashbackStatus.PENDENTES -> {
                 val filtered =
                     _cashbackList.filter { c -> stringToLocalDate(c.dataAtivacao) > dataCorrente &&
                         stringToLocalDate(c.dataAtivacao) > dataCorrente &&

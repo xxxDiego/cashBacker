@@ -14,7 +14,7 @@
         android:layout_height="match_parent">
 
         <TextView
-            android:id="@+id/name"
+            android:id="@+id/loja"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="8dp"
@@ -30,36 +30,39 @@
             android:layout_marginStart="8dp"
             android:background="?attr/dividerHorizontal"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/name" />
+            app:layout_constraintTop_toBottomOf="@id/loja" />
 
         <TextView
-            android:id="@+id/description"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:id="@+id/marca"
+            android:layout_width="184dp"
+            android:layout_height="35dp"
             android:padding="8dp"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/name"
-            tools:text="New Balance"/>
+            app:layout_constraintTop_toBottomOf="@id/loja"
+            tools:text="New Balance" />
+
 
         <TextView
             android:id="@+id/valorCompra"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="172dp"
+            android:layout_height="37dp"
             android:padding="8dp"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
-            app:layout_constraintTop_toBottomOf="@+id/description"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/marca"
             tools:text="Compra: R$ 900,00" />
-
 
         <TextView
             android:id="@+id/dataCompra"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="233dp"
+            android:layout_height="34dp"
             android:padding="8dp"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
-            app:layout_constraintTop_toBottomOf="@+id/valorCompra"
-            tools:text="13/05/2022" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/marca"
+            tools:text="Data Compra: 13/05/2022" />
 
         <TextView
             android:id="@+id/valorCashback"
@@ -71,23 +74,44 @@
             tools:text="Cashback: R$ 90,00" />
 
         <TextView
+            android:id="@+id/dataAtivacao"
+            android:layout_width="247dp"
+            android:layout_height="40dp"
+            android:padding="8dp"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/valorCashback"
+            tools:text="Data de Ativação: 13/05/2022" />
+
+        <TextView
             android:id="@+id/dataValidade"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="8dp"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
-            app:layout_constraintTop_toBottomOf="@+id/valorCashback"
-            tools:text="validade: 13/05/2022" />
+
+            app:layout_constraintTop_toBottomOf="@+id/dataAtivacao"
+            tools:text="Validade: 13/05/2022" />
 
         <TextView
             android:id="@+id/valorCashbackUtilizado"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="178dp"
+            android:layout_height="40dp"
             android:padding="8dp"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/dataValidade"
             tools:text="Utilizado: R$ 90,00" />
 
+        <TextView
+            android:id="@+id/dataUtilizacao"
+            android:layout_width="256dp"
+            android:layout_height="38dp"
+            android:padding="8dp"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/dataValidade"
+            tools:text="DAta de Utilização: 13/05/2022" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

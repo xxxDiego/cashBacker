@@ -15,6 +15,7 @@ import com.astetech.omnifidelidade.ui.cashback.CashbackAdapter
 import com.astetech.omnifidelidade.ui.cashback.CashbackClickListener
 import com.astetech.omnifidelidade.ui.cashback.CashbackViewModel
 import com.astetech.omnifidelidade.util.CashbackStatus
+import com.google.android.material.chip.Chip
 
 class AtividadesListFragment :Fragment(), CashbackClickListener {
 
@@ -29,8 +30,6 @@ class AtividadesListFragment :Fragment(), CashbackClickListener {
 
     private val cashbackAdapter = CashbackAdapter(this)
 
-    private var cashbackStatus = CashbackStatus.TODOS
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -42,7 +41,6 @@ class AtividadesListFragment :Fragment(), CashbackClickListener {
         _binding = this
     }.root
 
-
     override fun onClick(cashback: Cashback) {
         var directions = AtividadesListFragmentDirections.actionAtividadesFragmentToAtividadesDetailFragment(cashback)
         navController.navigate(directions)
@@ -52,32 +50,8 @@ class AtividadesListFragment :Fragment(), CashbackClickListener {
         super.onViewCreated(view, savedInstanceState)
 
         initCashbackAdapter()
-        registerViewListeners()
-        fillList()
-    }
-
-    private fun fillList() {
-        when (cashbackStatus) {
-            CashbackStatus.ATIVO -> {
-                cashbackviewModel.fitroCashback(CashbackStatus.ATIVO)
-            }
-            CashbackStatus.PENDENTE -> {
-                cashbackviewModel.fitroCashback(CashbackStatus.PENDENTE)
-            }
-            CashbackStatus.EXPIRADO -> {
-                cashbackviewModel.fitroCashback(CashbackStatus.EXPIRADO)
-            }
-            CashbackStatus.RESGATADO -> {
-                cashbackviewModel.fitroCashback(CashbackStatus.RESGATADO)
-            }
-            else -> {
-                if (cashbackviewModel.cashbackList.isNotEmpty()) {
-                    cashbackviewModel.fitroCashback(CashbackStatus.TODOS)
-                } else {
-                    cashbackviewModel.refreshDataFromNetwork()
-                }
-            }
-        }
+        initViewListeners()
+        initList()
     }
 
     private fun initCashbackAdapter() {
@@ -87,7 +61,7 @@ class AtividadesListFragment :Fragment(), CashbackClickListener {
         }
     }
 
-    private fun registerViewListeners() {
+    private fun initViewListeners() {
 
         cashbackviewModel.cashbackListLive.observe(viewLifecycleOwner, Observer<List<Cashback>> { bonus ->
 
@@ -100,30 +74,41 @@ class AtividadesListFragment :Fragment(), CashbackClickListener {
             }
         })
 
-        binding.ativos.setOnClickListener{
-            cashbackviewModel.fitroCashback(CashbackStatus.ATIVO)
-            cashbackStatus = CashbackStatus.ATIVO
-        }
-        binding.expirados.setOnClickListener{
-            cashbackviewModel.fitroCashback(CashbackStatus.EXPIRADO)
-            cashbackStatus = CashbackStatus.EXPIRADO
-        }
-
-        binding.resgatados.setOnClickListener{
-            cashbackviewModel.fitroCashback(CashbackStatus.RESGATADO)
-            cashbackStatus = CashbackStatus.RESGATADO
-        }
-
-        binding.pendentes.setOnClickListener{
-            cashbackviewModel.fitroCashback(CashbackStatus.PENDENTE)
-            cashbackStatus = CashbackStatus.PENDENTE
-        }
-
-        binding.todos.setOnClickListener{
-            cashbackviewModel.fitroCashback(CashbackStatus.TODOS)
-            cashbackStatus = CashbackStatus.TODOS
+        binding.chipsGroup.setOnCheckedStateChangeListener { group, checkedIds ->
+            if (checkedIds.size > 0){
+                group.findViewById<Chip>(checkedIds[0]).text.toString().apply {
+                    fillList(this)
+                }
+            }
         }
     }
 
+    private fun initList() {
+        val title = binding.chipsGroup.findViewById<Chip>(binding.chipsGroup.checkedChipId).text.toString()
+        fillList(title)
+    }
 
+    private fun fillList(title: String) {
+        when (title.uppercase()) {
+            CashbackStatus.ATIVOS.name -> {
+                cashbackviewModel.fitroCashback(CashbackStatus.ATIVOS)
+            }
+            CashbackStatus.PENDENTES.name -> {
+                cashbackviewModel.fitroCashback(CashbackStatus.PENDENTES)
+            }
+            CashbackStatus.EXPIRADOS.name -> {
+                cashbackviewModel.fitroCashback(CashbackStatus.EXPIRADOS)
+            }
+            CashbackStatus.RESGATADOS.name -> {
+                cashbackviewModel.fitroCashback(CashbackStatus.RESGATADOS)
+            }
+            else -> {
+                if (cashbackviewModel.cashbackList.isNotEmpty()) {
+                    cashbackviewModel.fitroCashback(CashbackStatus.TODOS)
+                } else {
+                    cashbackviewModel.refreshDataFromNetwork()
+                }
+            }
+        }
+    }
 }
