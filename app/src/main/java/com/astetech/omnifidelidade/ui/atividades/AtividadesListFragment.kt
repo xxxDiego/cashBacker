@@ -11,7 +11,7 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.astetech.omnifidelidade.databinding.FragmentAtividadesListBinding
 import com.astetech.omnifidelidade.models.Cashback
-import com.astetech.omnifidelidade.ui.cashback.CashbackAdapter
+import com.astetech.omnifidelidade.ui.cashback.AtividadesAdapter
 import com.astetech.omnifidelidade.ui.cashback.CashbackClickListener
 import com.astetech.omnifidelidade.ui.cashback.CashbackViewModel
 import com.astetech.omnifidelidade.util.CashbackStatus
@@ -28,7 +28,7 @@ class AtividadesListFragment :Fragment(), CashbackClickListener {
         findNavController()
     }
 
-    private val cashbackAdapter = CashbackAdapter(this)
+    private val atividadesAdapter = AtividadesAdapter(this)
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -57,7 +57,7 @@ class AtividadesListFragment :Fragment(), CashbackClickListener {
     private fun initCashbackAdapter() {
         with(binding.recyclerView) {
             setHasFixedSize(true)
-            adapter = cashbackAdapter
+            adapter = atividadesAdapter
         }
     }
 
@@ -67,7 +67,7 @@ class AtividadesListFragment :Fragment(), CashbackClickListener {
 
             if (bonus.isNotEmpty()){
                 _binding?.contentImage?.visibility = View.GONE
-                cashbackAdapter.submitList(bonus)
+                atividadesAdapter.submitList(bonus)
             }
             else{
                 _binding?.contentImage?.visibility = View.VISIBLE

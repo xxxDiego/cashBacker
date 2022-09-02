@@ -17,7 +17,7 @@
     <fragment
         android:id="@+id/atividadesDetailFragment"
         android:name="com.astetech.omnifidelidade.ui.atividades.AtividadesDetailFragment"
-        android:label="AtividadesDetailFragment" >
+        android:label="@string/cashback_datail_screen_title" >
     <argument
         android:name="cashback"
         app:argType="com.astetech.omnifidelidade.models.Cashback"

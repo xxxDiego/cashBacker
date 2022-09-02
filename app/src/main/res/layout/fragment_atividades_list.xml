@@ -1,30 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".ui.cashback.CashbackListFragment">
-
 
     <HorizontalScrollView
         android:id="@+id/horizontalScrollView"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        >
 
         <com.google.android.material.chip.ChipGroup
             android:id="@+id/chips_group"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="1dp"
+            android:layout_marginBottom="1dp"
             app:chipSpacingHorizontal="10dp"
             app:singleLine="true"
-            app:singleSelection="true"
-            android:layout_marginTop="10dp"
-            >
+            app:singleSelection="true">
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/todos"
@@ -32,53 +29,42 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checked="true"
-                android:text="Todos"
-                 />
+                android:text="Todos" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/ativos"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="@style/Widget.MaterialComponents.Chip.Choice"
-                android:text="Ativos"/>
+                android:text="Ativos" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/resgatados"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="@style/Widget.MaterialComponents.Chip.Choice"
-                android:text="Resgatados"
-                 />
+                android:text="Resgatados" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/pendentes"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="@style/Widget.MaterialComponents.Chip.Choice"
-                android:text="Pendentes"
-                 />
+                android:text="Pendentes" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/expirados"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="@style/Widget.MaterialComponents.Chip.Choice"
-                android:text="Expirados"
-                 />
-
+                android:text="Expirados" />
         </com.google.android.material.chip.ChipGroup>
     </HorizontalScrollView>
-
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/materialCardView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="70dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/horizontalScrollView">
+        android:layout_height="match_parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -95,18 +81,14 @@
                 android:id="@+id/content_image"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:scaleType="fitXY"
                 android:src="@drawable/no_cashback_wide"
                 android:visibility="gone"
-                android:scaleType="fitXY"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:srcCompat="@drawable/no_cashback_wide" />
         </androidx.constraintlayout.widget.ConstraintLayout>
-
     </com.google.android.material.card.MaterialCardView>
-
-
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

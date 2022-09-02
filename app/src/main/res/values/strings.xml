@@ -33,7 +33,7 @@
 
 
     <!-- cashback detail Fragment -->
-    <string name="cashback_datail_screen_title">CashBack</string>
+    <string name="cashback_datail_screen_title">Cashback</string>
 
 
     <!-- Login Fragment -->
@@ -65,5 +65,11 @@
 
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+
+    <string name="primary_color">Primary color</string>
+    <string name="button">Button</string>
+    <string name="secondary_color">Secondary color</string>
+    <string name="email_icon">email icon</string>
 
 </resources>

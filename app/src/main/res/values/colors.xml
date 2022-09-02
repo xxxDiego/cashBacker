@@ -12,10 +12,13 @@
     <color name="green">#008000</color>
     <color name="red">#FF0000</color>
 
-
-
-    <color name="colorPrimary">#3949AB</color>
-    <color name="colorPrimaryDark">#1A237E</color>
-    <color name="colorAccent">#FF000000</color>
+    <color name="primaryColor">#3949ab</color>
+    <color name="primaryLightColor">#6f74dd</color>
+    <color name="primaryDarkColor">#00227b</color>
+    <color name="secondaryColor">#0d47a1</color>
+    <color name="secondaryLightColor">#5472d3</color>
+    <color name="secondaryDarkColor">#002171</color>
+    <color name="primaryTextColor">#ffffff</color>
+    <color name="secondaryTextColor">#ffffff</color>
 
 </resources>

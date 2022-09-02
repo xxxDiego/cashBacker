@@ -4,14 +4,17 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import com.astetech.omnifidelidade.models.Cashback
+import com.astetech.omnifidelidade.ui.atividades.AtividadesViewHolder
 
-class CashbackAdapter() : ListAdapter<Cashback, CashbackViewHolder>(diffCallback){
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CashbackViewHolder {
-        return CashbackViewHolder.create(parent)
+class AtividadesAdapter(private val clickListener: CashbackClickListener) :
+     ListAdapter<Cashback, AtividadesViewHolder>(diffCallback){
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AtividadesViewHolder {
+        return AtividadesViewHolder.create(parent, clickListener)
     }
 
-    override fun onBindViewHolder(holder: CashbackViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: AtividadesViewHolder, position: Int) {
         getItem(position)?.let {
             holder.bind(it)
         }
@@ -34,4 +37,8 @@ class CashbackAdapter() : ListAdapter<Cashback, CashbackViewHolder>(diffCallback
             }
         }
     }
+}
+
+interface CashbackClickListener {
+    fun onClick(cashback: Cashback)
 }

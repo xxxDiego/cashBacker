@@ -12,6 +12,8 @@ import androidx.navigation.fragment.findNavController
 import com.astetech.omnifidelidade.databinding.FragmentCashbackListBinding
 import com.astetech.omnifidelidade.models.Cashback
 import com.astetech.omnifidelidade.ui.login.LoginViewModel
+import com.astetech.omnifidelidade.util.stringToLocalDate
+import com.google.android.material.chip.Chip
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -20,17 +22,12 @@ import java.util.*
 
 class CashbackListFragment : Fragment() {
 
-    private val viewModel: LoginViewModel by activityViewModels()
     private val cashbackviewModel: CashbackViewModel by activityViewModels()
 
     private var _binding: FragmentCashbackListBinding? = null
-   private val binding get() = _binding!!
+    private val binding get() = _binding!!
 
-   // private val cashbackAdapter = CashbackAdapter(this)
-
-    private val navController: NavController by lazy {
-        findNavController()
-    }
+    private val cashbackAdapter = CashbackAdapter()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -43,63 +40,40 @@ class CashbackListFragment : Fragment() {
         _binding = this
     }.root
 
-//    override fun onClick(cashback: Cashback) {
-//        var directions = CashbackListFragmentDirections.actionBonusFragmentToCashbackDetailFragment(cashback)
-//        navController.navigate(directions)
-//    }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-//    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-//        super.onViewCreated(view, savedInstanceState)
-//
-//        initCashbackAdapter()
-//
-//        cashbackviewModel.refreshDataFromNetwork()
-//
-//        cashbackviewModel.playlist.observe(viewLifecycleOwner, Observer<List<Cashback>> { bonus ->
-//            bonus?.apply {
-//
-//                val filtered = this.filter{ c ->  stringToLocalDate(c.dataValidade) > obterDataCorrente()}
-//
-//                if (filtered.isNotEmpty()){
-//                   // _binding?.contentImage?.visibility = View.GONE
-//                    cashbackAdapter.submitList(bonus)
-//                }
-//                else{
-//                 //  _binding?.contentImage?.visibility = View.VISIBLE
-//                }
-//
-//            }
-//        })
-//
-//        viewModel.authenticationStateEvent.observe(viewLifecycleOwner, Observer { authenticationState ->
-//            when (authenticationState) {
-//                LoginViewModel.AuthenticationState.Authenticated -> {
-//                   // textProfileWelcome.text = getString(R.string.profile_text_welcome, viewModel.usuarioNome)
-//                }
-//                LoginViewModel.AuthenticationState.Unauthenticated -> {
-//                   // navController.navigate(BonusFragmentDirections.actionBonusFragmentToLoginFragment())
-//                }
-//                else -> {}
-//            }
-//        })
-//    }
-//
-//    private fun initCashbackAdapter() {
-//        with(binding.recyclerView) {
-//            setHasFixedSize(true)
-//            adapter = cashbackAdapter
-//        }
-//    }
-//
-//    private fun obterDataCorrente(): LocalDate{
-//        val current = LocalDateTime.now()
-//        val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
-//        var date =  current.format(formatter)
-//        return LocalDate.parse(date, DateTimeFormatter.ofPattern("dd/MM/yyyy"))
-//    }
-//
-//    private fun stringToLocalDate (data: String): LocalDate{
-//        return LocalDate.parse(data, DateTimeFormatter.ofPattern("dd/MM/yyyy"))
-//    }
+        initCashbackAdapter()
+        initViewListeners()
+        cashbackviewModel.refreshDataFromNetwork()
+    }
+
+    private fun initViewListeners() {
+        cashbackviewModel.cashbackListLive.observe(viewLifecycleOwner, Observer<List<Cashback>> { bonus ->
+            if (bonus.isNotEmpty()){
+                _binding?.contentImage?.visibility = View.GONE
+
+                var bonusAgrupado = bonus
+                    .sortedBy { c -> c.empresa }
+                    .groupingBy { it.empresa }
+                    .reduce { key, accumulator, element ->
+                        accumulator.copy(empresa = key, valor = accumulator.valor + element.valor)
+                    }
+                    .values.toList()
+                cashbackAdapter.submitList(bonusAgrupado)
+            }
+            else{
+                _binding?.contentImage?.visibility = View.VISIBLE
+            }
+        })
+    }
+
+    private fun initCashbackAdapter() {
+        with(binding.recyclerView) {
+            setHasFixedSize(true)
+            adapter = cashbackAdapter
+        }
+    }
+
 
 }
