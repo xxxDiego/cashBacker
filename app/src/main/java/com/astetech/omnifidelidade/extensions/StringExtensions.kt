@@ -17,3 +17,4 @@ fun String.removeMask(): String {
 fun String.dateToDb():String{
     return LocalDate.parse(this, DateTimeFormatter.ofPattern("dd/MM/yyyy")).toString()
 }
+

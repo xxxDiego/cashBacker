@@ -9,11 +9,15 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
+import com.astetech.omnifidelidade.R
 import com.astetech.omnifidelidade.databinding.FragmentCashbackListBinding
 import com.astetech.omnifidelidade.models.Cashback
 import com.astetech.omnifidelidade.ui.login.LoginViewModel
+import com.astetech.omnifidelidade.util.doubleToUi
 import com.astetech.omnifidelidade.util.stringToLocalDate
 import com.google.android.material.chip.Chip
+import org.imaginativeworld.whynotimagecarousel.ImageCarousel
+import org.imaginativeworld.whynotimagecarousel.model.CarouselItem
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -29,6 +33,8 @@ class CashbackListFragment : Fragment() {
 
     private val cashbackAdapter = CashbackAdapter()
 
+    val list = mutableListOf<CarouselItem>()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -38,11 +44,14 @@ class CashbackListFragment : Fragment() {
         false
     ).apply {
         _binding = this
+        binding.semCashCard.visibility = View.GONE
     }.root
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
+        initCarousel()
         initCashbackAdapter()
         initViewListeners()
         cashbackviewModel.refreshDataFromNetwork()
@@ -51,7 +60,7 @@ class CashbackListFragment : Fragment() {
     private fun initViewListeners() {
         cashbackviewModel.cashbackListLive.observe(viewLifecycleOwner, Observer<List<Cashback>> { bonus ->
             if (bonus.isNotEmpty()){
-                _binding?.contentImage?.visibility = View.GONE
+                binding.semCashCard.visibility = View.GONE
 
                 var bonusAgrupado = bonus
                     .sortedBy { c -> c.empresa }
@@ -61,11 +70,26 @@ class CashbackListFragment : Fragment() {
                     }
                     .values.toList()
                 cashbackAdapter.submitList(bonusAgrupado)
+
+                val total = bonus.sumOf { cash -> cash.valor }
+
+                binding.totalHomeText.text = doubleToUi(total)
             }
             else{
-                _binding?.contentImage?.visibility = View.VISIBLE
+                binding.semCashCard.visibility = View.VISIBLE
             }
         })
+    }
+
+    private fun initCarousel() {
+        val carousel: ImageCarousel = binding.carousel
+        carousel.registerLifecycle(lifecycle)
+        list.add(CarouselItem(R.drawable.ds))
+        list.add(CarouselItem(R.drawable.nb))
+        list.add(CarouselItem(R.drawable.kp))
+        list.add(CarouselItem(R.drawable.al))
+        list.add(CarouselItem(R.drawable.jp))
+        carousel.setData(list)
     }
 
     private fun initCashbackAdapter() {
