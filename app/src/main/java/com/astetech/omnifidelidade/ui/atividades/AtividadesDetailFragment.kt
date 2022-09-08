@@ -10,6 +10,7 @@ import com.astetech.omnifidelidade.R
 import com.astetech.omnifidelidade.databinding.FragmentAtividadesDetailBinding
 import com.astetech.omnifidelidade.databinding.FragmentCashbackDetailBinding
 import com.astetech.omnifidelidade.ui.cashback.CashbackDetailFragmentArgs
+import com.astetech.omnifidelidade.util.doubleToUi
 
 
 class AtividadesDetailFragment : Fragment() {
@@ -31,13 +32,18 @@ class AtividadesDetailFragment : Fragment() {
 
         binding.loja.text = cashback.loja
         binding.marca.text = cashback.empresa
-        binding.valorCompra.text = "Compra: " + cashback.valorCompra
-        binding.valorCashback.text = "Cashback " + cashback.valor
-        binding.dataCompra.text = "Data Compra: " + cashback.dataCompra
-        binding.dataAtivacao.text = "Data de Ativação: " + cashback.dataAtivacao
-        binding.dataValidade.text = "Validade: " + cashback.dataValidade
-        binding.valorCashbackUtilizado.text = "Utilizado: " + cashback.valorUtilizado
-        binding.dataUtilizacao.text = "Utilizado " + cashback.dataValidade
+        binding.valorCompraText.text = doubleToUi(cashback.valorCompra)
+        binding.valorCashbackText.text = doubleToUi(cashback.valor)
+        binding.dataCompraText.text = cashback.dataCompra
+        binding.dataAtivacaoText.text = cashback.dataAtivacao
+        binding.dataValidadeText.text = cashback.dataValidade
+        binding.valorUtilizadoText.text = doubleToUi(cashback.valorUtilizado)
+        if (cashback.valorUtilizado > 0) {
+            binding.dataUtilizacaoText.text = cashback.dataValidade
+        }
+        else{
+            binding.dataUtilizacaoText.text = "Não utilizado"
+        }
         return view
     }
 

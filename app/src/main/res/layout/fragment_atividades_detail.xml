@@ -18,6 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="8dp"
+            android:maxLines="3"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Headline2"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -34,86 +35,215 @@
 
         <TextView
             android:id="@+id/marca"
-            android:layout_width="184dp"
-            android:layout_height="35dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
             android:padding="8dp"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/loja"
             tools:text="New Balance" />
 
-
-        <TextView
-            android:id="@+id/valorCompra"
-            android:layout_width="172dp"
-            android:layout_height="37dp"
-            android:padding="8dp"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/marca"
-            tools:text="Compra: R$ 900,00" />
-
-        <TextView
-            android:id="@+id/dataCompra"
-            android:layout_width="233dp"
-            android:layout_height="34dp"
-            android:padding="8dp"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/marca"
-            tools:text="Data Compra: 13/05/2022" />
-
-        <TextView
-            android:id="@+id/valorCashback"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="8dp"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
-            app:layout_constraintTop_toBottomOf="@+id/dataCompra"
-            tools:text="Cashback: R$ 90,00" />
-
-        <TextView
-            android:id="@+id/dataAtivacao"
-            android:layout_width="247dp"
-            android:layout_height="40dp"
-            android:padding="8dp"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/valorCashback"
-            tools:text="Data de Ativação: 13/05/2022" />
-
-        <TextView
-            android:id="@+id/dataValidade"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="8dp"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
-
-            app:layout_constraintTop_toBottomOf="@+id/dataAtivacao"
-            tools:text="Validade: 13/05/2022" />
-
-        <TextView
-            android:id="@+id/valorCashbackUtilizado"
-            android:layout_width="178dp"
-            android:layout_height="40dp"
-            android:padding="8dp"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/dataValidade"
-            tools:text="Utilizado: R$ 90,00" />
-
-        <TextView
-            android:id="@+id/dataUtilizacao"
-            android:layout_width="256dp"
-            android:layout_height="38dp"
-            android:padding="8dp"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/dataValidade"
-            tools:text="DAta de Utilização: 13/05/2022" />
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/marca">
 
 
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/left_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginRight="0dp"
+                android:layout_toLeftOf="@+id/secondView">
+
+                <TextView
+                    android:id="@+id/valor_compra_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="3dp"
+                    android:layout_marginTop="30dp"
+                    android:text="Valor da compra"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    android:textSize="16sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="Valor da compra" />
+
+                <TextView
+                    android:id="@+id/valor_compra_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="3dp"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/valor_compra_label"
+                    tools:text="R$ 900,00" />
+
+                <TextView
+                    android:id="@+id/valor_cashback_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:padding="3dp"
+                    android:text="Cashback gerado"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    android:textSize="16sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/valor_compra_text"
+                    tools:text="Cashback gerado" />
+
+                <TextView
+                    android:id="@+id/valor_cashback_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="3dp"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/valor_cashback_label"
+                    tools:text="R$ 90,00" />
+
+
+                <TextView
+                    android:id="@+id/data_ativacao_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:padding="3dp"
+                    android:text="Data de ativação"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    android:textSize="16sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/valor_cashback_text"
+                    tools:text="Data de ativação" />
+
+                <TextView
+                    android:id="@+id/data_ativacao_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="3dp"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/data_ativacao_label"
+                    tools:text="13/05/2022" />
+
+                <TextView
+                    android:id="@+id/valor_utilizado_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginTop="20dp"
+                    android:padding="3dp"
+                    android:text="Valor utilizado"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    android:textSize="16sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/data_ativacao_text"
+                    tools:text="Valor utilizado" />
+
+                <TextView
+                    android:id="@+id/valor_utilizado_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="3dp"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/valor_utilizado_label"
+                    tools:text="R$ 90,00" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <View
+                android:id="@+id/secondView"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_centerHorizontal="true" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/thirdLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="0dp"
+                android:layout_toRightOf="@+id/secondView">
+
+                <TextView
+                    android:id="@+id/data_compra_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="3dp"
+                    android:layout_marginTop="30dp"
+                    android:text="Data da compra"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    android:textSize="16sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="Data da compra" />
+
+                <TextView
+                    android:id="@+id/data_compra_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="3dp"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/data_compra_label"
+                    tools:text="13/05/2022" />
+
+                <TextView
+                    android:id="@+id/data_validade_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="96dp"
+                    android:padding="3dp"
+                    android:text="Validade"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    android:textSize="16sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/data_compra_text"
+                    tools:text="Validade" />
+
+                <TextView
+                    android:id="@+id/data_validade_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="3dp"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/data_validade_label"
+                    tools:text="13/05/2022" />
+
+                <TextView
+                    android:id="@+id/data_utilizacao_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="3dp"
+                    android:layout_marginTop="20dp"
+                    android:text="Data de utilização"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    android:textSize="16sp"
+                    app:layout_constraintTop_toBottomOf="@+id/data_validade_text"
+                    tools:text="Data de utilização" />
+
+                <TextView
+                    android:id="@+id/data_utilizacao_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="3dp"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/data_utilizacao_label"
+                    tools:text="13/05/2022" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </RelativeLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 </layout>
