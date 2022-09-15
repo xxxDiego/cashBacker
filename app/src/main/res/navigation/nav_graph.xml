@@ -20,7 +20,7 @@
     <fragment
         android:id="@+id/profileDataFragment"
         android:name="com.astetech.omnifidelidade.ui.cadastro.cliente.ClienteFragment"
-        android:label="@string/profile_data_screen_title"
+        android:label="@string/cliente_screen_title"
         tools:layout="@layout/fragment_cliente">
         <action
             android:id="@+id/action_profileDataFragment_to_chooseCredentialsFragment"
@@ -34,7 +34,7 @@
     <fragment
         android:id="@+id/chooseCredentialsFragment"
         android:name="com.astetech.omnifidelidade.ui.cadastro.credenciais.CredenciaisFragment"
-        android:label="@string/choose_credentials_screen_title"
+        android:label="@string/credenciais_screen_title"
         tools:layout="@layout/fragment_credenciais">
         <action
             android:id="@+id/action_chooseCredentialsFragment_to_bonus"

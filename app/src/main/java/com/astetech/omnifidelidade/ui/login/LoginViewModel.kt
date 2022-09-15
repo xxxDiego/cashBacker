@@ -24,12 +24,9 @@ class LoginViewModel() : ViewModel() {
     val cliente: LiveData<Cliente>
         get() = _cliente
 
-    private var usuarioNome: String = ""
 
     sealed class AuthenticationState {
         object Unauthenticated : AuthenticationState()
-        object Authenticated : AuthenticationState()
-        object NotFound : AuthenticationState()
         class InvalidAuthentication(val fields: List<Pair<String, Int>>) : AuthenticationState()
     }
 
@@ -45,15 +42,9 @@ class LoginViewModel() : ViewModel() {
         _authenticationStateEvent.value = AuthenticationState.Unauthenticated
     }
 
-    fun authenticateToken(token: String, username: String) {
-        this.usuarioNome = username
-        _authenticationStateEvent.value = AuthenticationState.Authenticated
-    }
-
     fun authenticate(usuarioCelular: String):Boolean {
         return isValidForm(usuarioCelular)
     }
-
     
     fun buscaUsuario(celular: String): LiveData<Resultado<Cliente?>> =
         repository.buscaCliente(celular)

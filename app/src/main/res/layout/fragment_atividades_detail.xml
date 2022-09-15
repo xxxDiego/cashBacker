@@ -55,8 +55,8 @@
                 android:id="@+id/left_layout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginRight="0dp"
-                android:layout_toLeftOf="@+id/secondView">
+                android:layout_marginEnd="0dp"
+                android:layout_toStartOf="@+id/secondView">
 
                 <TextView
                     android:id="@+id/valor_compra_label"
@@ -65,7 +65,7 @@
                     android:padding="3dp"
                     android:layout_marginTop="30dp"
                     android:layout_marginStart="8dp"
-                    android:text="Valor da compra"
+                    android:text="@string/atividades_valor_compra_label"
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                     android:textSize="16sp"
                     app:layout_constraintStart_toStartOf="parent"
@@ -91,7 +91,7 @@
                     android:layout_marginTop="20dp"
                     android:layout_marginStart="8dp"
                     android:padding="3dp"
-                    android:text="Cashback gerado"
+                    android:text="@string/atividades_valor_cashback_label"
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                     android:textSize="16sp"
                     app:layout_constraintStart_toStartOf="parent"
@@ -118,7 +118,7 @@
                     android:layout_marginTop="20dp"
                     android:layout_marginStart="8dp"
                     android:padding="3dp"
-                    android:text="Data de ativação"
+                    android:text="@string/atividades_data_ativacao_label"
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                     android:textSize="16sp"
                     app:layout_constraintStart_toStartOf="parent"
@@ -145,7 +145,7 @@
                     android:layout_marginTop="20dp"
                     android:layout_marginStart="8dp"
                     android:padding="3dp"
-                    android:text="Valor utilizado"
+                    android:text="@string/atividades_valor_utilizado_label"
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                     android:textSize="16sp"
                     app:layout_constraintStart_toStartOf="parent"
@@ -176,8 +176,8 @@
                 android:id="@+id/thirdLayout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="0dp"
-                android:layout_toRightOf="@+id/secondView">
+                android:layout_marginStart="0dp"
+                android:layout_toEndOf="@+id/secondView">
 
                 <TextView
                     android:id="@+id/data_compra_label"
@@ -185,7 +185,7 @@
                     android:layout_height="wrap_content"
                     android:padding="3dp"
                     android:layout_marginTop="30dp"
-                    android:text="Data da compra"
+                    android:text="@string/atividades_data_compra_label"
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                     android:textSize="16sp"
                     app:layout_constraintStart_toStartOf="parent"
@@ -209,7 +209,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="96dp"
                     android:padding="3dp"
-                    android:text="Validade"
+                    android:text="@string/atividades_data_validade_label"
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                     android:textSize="16sp"
                     app:layout_constraintStart_toStartOf="parent"
@@ -233,7 +233,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
                     android:padding="3dp"
-                    android:text="Data de utilização"
+                    android:text="@string/atividades_data_utilizacao_label"
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                     android:textSize="16sp"
                     app:layout_constraintStart_toStartOf="parent"

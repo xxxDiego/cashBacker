@@ -58,8 +58,8 @@ class CadastroViewModel : ViewModel() {
 
 
     fun enviaPin(celular: String): LiveData<Resultado<Boolean?>> {
-        var pin = PinNetwork(celular, Config.lojaId)
-        return repository.enviaPin(pin)
+        val pinNetwork = PinNetwork(celular, Config.lojaId)
+        return repository.enviaPin(pinNetwork)
     }
 
     fun CreateRegistrationCompleted() {
@@ -67,8 +67,8 @@ class CadastroViewModel : ViewModel() {
     }
 
     fun validaPin(pin: String): LiveData<Resultado<ValidaPinResponse?>> {
-        var pin = PinNetwork(this.cliente.celular, Config.lojaId, pin)
-        return repository.validaPin(pin)
+        val pinNetwork = PinNetwork(this.cliente.celular, Config.lojaId, pin)
+        return repository.validaPin(pinNetwork)
     }
 
     private fun isValidProfileData(
@@ -100,8 +100,8 @@ class CadastroViewModel : ViewModel() {
             _registrationStateEvent.value = RegistrationState.InvalidProfileData(invalidFields)
             return false
         }
-        return true
         enviaPin(celular)
+        return true
     }
 
     fun createCredentials(pin: String):Boolean{
@@ -132,12 +132,12 @@ class CadastroViewModel : ViewModel() {
     }
 
     companion object {
-        val INPUT_NOME = "INPUT_NOME" to R.string.profile_data_input_layout_error_nome
-        val INPUT_CELULAR = "INPUT_CELULAR" to R.string.profile_data_input_layout_error_celular
-        val INPUT_CPF = "INPUT_CPF" to R.string.profile_data_input_layout_error_cpf
-        val INPUT_EMAIL = "INPUT_EMAIL" to R.string.profile_data_input_layout_error_email
-        val INPUT_DATANASCIMENTO ="INPUT_DATANASCIMENTO" to R.string.profile_data_input_layout_error_datanascimento
-        val INPUT_PIN = "INPUT_PIN" to R.string.choose_credentials_input_layout_error_pin
+        val INPUT_NOME = "INPUT_NOME" to R.string.cliente_input_layout_error_nome
+        val INPUT_CELULAR = "INPUT_CELULAR" to R.string.cliente_input_layout_error_celular
+        val INPUT_CPF = "INPUT_CPF" to R.string.cliente_input_layout_error_cpf
+        val INPUT_EMAIL = "INPUT_EMAIL" to R.string.cliente_input_layout_error_email
+        val INPUT_DATANASCIMENTO ="INPUT_DATANASCIMENTO" to R.string.cliente_input_layout_error_datanascimento
+        val INPUT_PIN = "INPUT_PIN" to R.string.credenciais_input_layout_error_pin
     }
 
 }

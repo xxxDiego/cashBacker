@@ -37,7 +37,7 @@ class CredenciaisFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentCredenciaisBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -56,28 +56,21 @@ class CredenciaisFragment : Fragment() {
     )
 
     private fun listenToRegistrationStateEvent(validationFields: Map<String, TextInputLayout>) {
-        cadastroViewModel.registrationStateEvent.observe(viewLifecycleOwner, Observer { registrationState ->
+        cadastroViewModel.registrationStateEvent.observe(viewLifecycleOwner) { registrationState ->
             when (registrationState) {
-//                is CadastroViewModel.RegistrationState.RegistrationCompleted -> {
-//                    val token = cadastroViewModel.authToken
-//                    val username = cadastroViewModel.authNome
-//
-//                    loginViewModel.authenticateToken(token, username)
-//                    navController.popBackStack(R.id.bonusFragment, false)
-//                }
                 is CadastroViewModel.RegistrationState.InvalidCredentials -> {
                     registrationState.fields.forEach { fieldError ->
                         validationFields[fieldError.first]?.error = getString(fieldError.second)
                     }
                 }
-                is CadastroViewModel.RegistrationState.RegistrationCompleted ->{
+                is CadastroViewModel.RegistrationState.RegistrationCompleted -> {
                     gravaCliente()
                 }
                 else -> {
 
                 }
             }
-        })
+        }
     }
 
     private fun gravaCliente() {
@@ -100,8 +93,9 @@ class CredenciaisFragment : Fragment() {
 
             if (cadastrado) {
                 navController.navigate(R.id.action_chooseCredentialsFragment_to_bonus)
-            } else {
-                Toast.makeText(activity,"Text!",Toast.LENGTH_SHORT).show();
+            }
+            else {
+                Toast.makeText(activity,"Houve um erro ao cadastrar o cliente!",Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -120,11 +114,11 @@ class CredenciaisFragment : Fragment() {
     }
 
     private fun validaPin(pin: String){
-        cadastroViewModel.validaPin(pin).observe(viewLifecycleOwner){ it ->
+        cadastroViewModel.validaPin(pin).observe(viewLifecycleOwner){
             val validado = it?.let { resultado ->
                 when (resultado) {
                     is Resultado.Sucesso -> {
-                        resultado.data?.let { validaPinResponse->
+                        resultado.data?.let { validaPinResponse ->
                             validaPinResponse.valido
                         } ?: false
                     }
@@ -136,7 +130,7 @@ class CredenciaisFragment : Fragment() {
             if (validado){
                 cadastroViewModel.CreateRegistrationCompleted()
             }else{
-                binding.inputLayoutPin.error = R.string.choose_credentials_input_layout_error_pin.toString()
+                binding.inputLayoutPin.error = R.string.credenciais_input_layout_error_pin.toString()
             }
 
         }

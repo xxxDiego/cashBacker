@@ -118,7 +118,7 @@ class CashbackViewModel() : ViewModel() {
                 ) {
                     if (response.isSuccessful) {
                         response.body()?.let {
-                            var cashbackRetorno = NetworkCashbackContainer(it).asDomainModel()
+                            val cashbackRetorno = NetworkCashbackContainer(it).asDomainModel()
 
                             _cashbackList = cashbackRetorno.sortedByDescending { c -> stringToLocalDate(c.dataValidade) }
                             _cashbackListLive.postValue(_cashbackList)
