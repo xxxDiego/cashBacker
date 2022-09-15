@@ -1,4 +1,4 @@
-package com.astetech.omnifidelidade.ui.registration.profiledata
+package com.astetech.omnifidelidade.ui.cadastro.cliente
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,24 +12,22 @@ import androidx.navigation.NavController
 import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import androidx.paging.Config
-import com.astetech.omnifidelidade.BuildConfig
-import com.astetech.omnifidelidade.databinding.FragmentProfileDataBinding
+import com.astetech.omnifidelidade.databinding.FragmentClienteBinding
 import com.astetech.omnifidelidade.extensions.dismissError
 import com.astetech.omnifidelidade.extensions.navigateWithAnimations
-import com.astetech.omnifidelidade.models.Cliente
-import com.astetech.omnifidelidade.ui.registration.RegistrationViewModel
+import com.astetech.omnifidelidade.extensions.removeMask
+import com.astetech.omnifidelidade.ui.cadastro.CadastroViewModel
 import com.astetech.omnifidelidade.util.Mask
 import com.github.rtoshiro.util.format.SimpleMaskFormatter
 import com.github.rtoshiro.util.format.text.MaskTextWatcher
 import com.google.android.material.textfield.TextInputLayout
 
-class ProfileDataFragment : Fragment() {
-    private val registrationViewModel: RegistrationViewModel by activityViewModels()
+class ClienteFragment : Fragment() {
+    private val cadastroViewModel: CadastroViewModel by activityViewModels()
 
-    private val args: ProfileDataFragmentArgs by navArgs()
+    private val args: ClienteFragmentArgs by navArgs()
 
-    private var _binding:  FragmentProfileDataBinding? = null
+    private var _binding:  FragmentClienteBinding? = null
     private val binding get() = _binding!!
 
     private val navController: NavController by lazy {
@@ -42,7 +40,7 @@ class ProfileDataFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentProfileDataBinding.inflate(inflater, container, false)
+        _binding = FragmentClienteBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -58,21 +56,21 @@ class ProfileDataFragment : Fragment() {
     }
 
     private fun initValidationFields() = mapOf(
-        RegistrationViewModel.INPUT_NOME.first to binding.inputLayoutNome,
-        RegistrationViewModel.INPUT_CELULAR.first to binding.inputLayoutCelular,
-        RegistrationViewModel.INPUT_CPF.first to binding.inputLayoutCpf,
-        RegistrationViewModel.INPUT_EMAIL.first to binding.inputLayoutEmail,
-        RegistrationViewModel.INPUT_DATANASCIMENTO.first to binding.inputLayoutDataNascimento,
+        CadastroViewModel.INPUT_NOME.first to binding.inputLayoutNome,
+        CadastroViewModel.INPUT_CELULAR.first to binding.inputLayoutCelular,
+        CadastroViewModel.INPUT_CPF.first to binding.inputLayoutCpf,
+        CadastroViewModel.INPUT_EMAIL.first to binding.inputLayoutEmail,
+        CadastroViewModel.INPUT_DATANASCIMENTO.first to binding.inputLayoutDataNascimento,
     )
 
     private fun listenToRegistrationStateEvent(validationFields: Map<String, TextInputLayout>) {
-        registrationViewModel.registrationStateEvent.observe(viewLifecycleOwner, Observer { registrationState ->
+        cadastroViewModel.registrationStateEvent.observe(viewLifecycleOwner, Observer { registrationState ->
             when (registrationState) {
-                is RegistrationViewModel.RegistrationState.CollectCredentials -> {
-                    directions = ProfileDataFragmentDirections
-                        .actionProfileDataFragmentToChooseCredentialsFragment(registrationViewModel.cliente)
+                is CadastroViewModel.RegistrationState.CollectCredentials -> {
+                    directions = ClienteFragmentDirections
+                        .actionProfileDataFragmentToChooseCredentialsFragment(cadastroViewModel.cliente)
                 }
-                is RegistrationViewModel.RegistrationState.InvalidProfileData -> {
+                is CadastroViewModel.RegistrationState.InvalidProfileData -> {
                     registrationState.fields.forEach { fieldError ->
                         validationFields[fieldError.first]?.error = getString(fieldError.second)
                     }
@@ -84,15 +82,15 @@ class ProfileDataFragment : Fragment() {
 
     private fun registerViewListeners() {
 
-        binding.buttonProfileDataNext.setOnClickListener {
+        binding.buttonProximo.setOnClickListener {
             val nome = binding.inputNome.text.toString()
-            val celular = binding.inputCelular.text.toString()
+            val celular = binding.inputCelular.text.toString().removeMask()
             val cpf = binding.inputCpf.text.toString()
             val email = binding.inputEmail.text.toString()
             val dataNascimento = binding.inputDataNascimento.text.toString()
 
 
-            registrationViewModel.collectProfileData(nome, celular, cpf, email, dataNascimento)
+            cadastroViewModel.collectProfileData(nome, celular, cpf, email, dataNascimento)
 
             if (directions != null) {
                 navController.navigateWithAnimations(directions!!)
@@ -125,7 +123,7 @@ class ProfileDataFragment : Fragment() {
     }
 
     private fun cancelAuthentication() {
-        registrationViewModel.refuseAuthentication()
+        cadastroViewModel.refuseAuthentication()
         binding.inputLayoutNome.dismissError()
         binding.inputLayoutCelular.dismissError()
         binding.inputLayoutCpf.dismissError()

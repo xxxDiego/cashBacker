@@ -2,6 +2,7 @@ package com.astetech.omnifidelidade.network
 
 import com.astetech.omnifidelidade.models.Cliente
 import com.astetech.omnifidelidade.network.response.ClientePostResponse
+import com.astetech.omnifidelidade.network.response.ValidaPinResponse
 import retrofit2.Call
 import retrofit2.Response
 import retrofit2.Retrofit
@@ -11,7 +12,7 @@ import retrofit2.http.*
 interface FidelidadeService {
 
     @GET("Relatorio/cliente/detalhe")
-     fun buscarCashback(
+     fun buscaCashback(
         @Header("Authorization") authHeader: String?,
         @Header("tenant") tenant: String?,
         @Query("clienteId") clienteId: String,
@@ -35,6 +36,21 @@ interface FidelidadeService {
         @Header("tenant") tenant: String,
         @Body cliente: ClienteNetwork
     ): Response<ClientePostResponse>
+
+    @POST("pin/enviar")
+    suspend fun enviaPin(
+        @Header("Authorization") authHeader: String,
+        @Header("tenant") tenant: String,
+        @Body pin: PinNetwork
+    ): Response<Boolean>
+
+    @POST("pin/validar")
+    suspend fun validaPin(
+        @Header("Authorization") authHeader: String,
+        @Header("tenant") tenant: String,
+        @Body pin: PinNetwork
+    ): Response<ValidaPinResponse>
+
 }
 
 object FidelidadeNetwork {

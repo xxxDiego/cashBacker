@@ -98,7 +98,7 @@ class CashbackViewModel() : ViewModel() {
             val dataInicio = "2022-01-01"
             val dataFim = "2022-12-01"
 
-            val callback = FidelidadeNetwork.fidelidade.buscarCashback(
+            val callback = FidelidadeNetwork.fidelidade.buscaCashback(
                 Config.token,
                 Config.tenant,
                 Config.clienteId,

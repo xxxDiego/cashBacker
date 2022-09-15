@@ -1,39 +1,33 @@
-package com.astetech.omnifidelidade.ui.registration.choosecredencials
+package com.astetech.omnifidelidade.ui.cadastro.credenciais
 
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.activity.addCallback
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import com.astetech.omnifidelidade.R
-import com.astetech.omnifidelidade.databinding.FragmentChooseCredentialsBinding
+import com.astetech.omnifidelidade.databinding.FragmentCredenciaisBinding
 import com.astetech.omnifidelidade.extensions.dismissError
-import com.astetech.omnifidelidade.extensions.navigateWithAnimations
 import com.astetech.omnifidelidade.models.Config
 import com.astetech.omnifidelidade.repository.Resultado
-import com.astetech.omnifidelidade.ui.login.LoginFragmentDirections
-import com.astetech.omnifidelidade.ui.login.LoginViewModel
-import com.astetech.omnifidelidade.ui.registration.RegistrationViewModel
+import com.astetech.omnifidelidade.ui.cadastro.CadastroViewModel
 import com.google.android.material.textfield.TextInputLayout
 
 
-class ChooseCredentialsFragment : Fragment() {
+class CredenciaisFragment : Fragment() {
 
 
-    private val registrationViewModel: RegistrationViewModel by activityViewModels()
+    private val cadastroViewModel: CadastroViewModel by activityViewModels()
 
     //private val args: ChooseCredentialsFragmentArgs by navArgs()
 
-    private var _binding:  FragmentChooseCredentialsBinding? = null
+    private var _binding:  FragmentCredenciaisBinding? = null
     private val binding get() = _binding!!
 
     private val navController: NavController by lazy {
@@ -44,7 +38,7 @@ class ChooseCredentialsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentChooseCredentialsBinding.inflate(inflater, container, false)
+        _binding = FragmentCredenciaisBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -54,35 +48,40 @@ class ChooseCredentialsFragment : Fragment() {
         val validationFields = initValidationFields()
         listenToRegistrationStateEvent(validationFields)
         registerViewListeners()
-
+        cancelAuthentication()
     }
 
     private fun initValidationFields() = mapOf(
-        RegistrationViewModel.INPUT_PIN.first to binding.inputLayoutPin
+        CadastroViewModel.INPUT_PIN.first to binding.inputLayoutPin
     )
 
     private fun listenToRegistrationStateEvent(validationFields: Map<String, TextInputLayout>) {
-        registrationViewModel.registrationStateEvent.observe(viewLifecycleOwner, Observer { registrationState ->
+        cadastroViewModel.registrationStateEvent.observe(viewLifecycleOwner, Observer { registrationState ->
             when (registrationState) {
-//                is RegistrationViewModel.RegistrationState.RegistrationCompleted -> {
-//                    val token = registrationViewModel.authToken
-//                    val username = registrationViewModel.authNome
+//                is CadastroViewModel.RegistrationState.RegistrationCompleted -> {
+//                    val token = cadastroViewModel.authToken
+//                    val username = cadastroViewModel.authNome
 //
 //                    loginViewModel.authenticateToken(token, username)
 //                    navController.popBackStack(R.id.bonusFragment, false)
 //                }
-                is RegistrationViewModel.RegistrationState.InvalidCredentials -> {
+                is CadastroViewModel.RegistrationState.InvalidCredentials -> {
                     registrationState.fields.forEach { fieldError ->
                         validationFields[fieldError.first]?.error = getString(fieldError.second)
                     }
                 }
-                else -> {}
+                is CadastroViewModel.RegistrationState.RegistrationCompleted ->{
+                    gravaCliente()
+                }
+                else -> {
+
+                }
             }
         })
     }
 
     private fun gravaCliente() {
-        registrationViewModel.gravaCliente().observe(viewLifecycleOwner){
+        cadastroViewModel.gravaCliente().observe(viewLifecycleOwner){
             val cadastrado = it?.let { resultado ->
                 when (resultado) {
                     is Resultado.Sucesso -> {
@@ -110,13 +109,42 @@ class ChooseCredentialsFragment : Fragment() {
     private fun registerViewListeners() {
         binding.buttonChooseCredentialsNext.setOnClickListener {
            val pin = binding.inputPin.text.toString()
-         if (registrationViewModel.createCredentials(pin)){
-             gravaCliente()
-         }
+
+            if(cadastroViewModel.createCredentials(pin)){
+                validaPin(pin)
+            }
         }
         binding.inputPin.addTextChangedListener {
             binding.inputLayoutPin.dismissError()
         }
+    }
+
+    private fun validaPin(pin: String){
+        cadastroViewModel.validaPin(pin).observe(viewLifecycleOwner){ it ->
+            val validado = it?.let { resultado ->
+                when (resultado) {
+                    is Resultado.Sucesso -> {
+                        resultado.data?.let { validaPinResponse->
+                            validaPinResponse.valido
+                        } ?: false
+                    }
+                    is Resultado.Erro -> {
+                        false
+                    }
+                }
+            } ?: false
+            if (validado){
+                cadastroViewModel.CreateRegistrationCompleted()
+            }else{
+                binding.inputLayoutPin.error = R.string.choose_credentials_input_layout_error_pin.toString()
+            }
+
+        }
+    }
+
+    private fun cancelAuthentication() {
+        cadastroViewModel.refuseAuthentication()
+        binding.inputLayoutPin.dismissError()
     }
 
 

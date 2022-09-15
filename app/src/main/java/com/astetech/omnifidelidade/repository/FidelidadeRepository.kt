@@ -7,6 +7,7 @@ import com.astetech.omnifidelidade.models.Config
 import com.astetech.omnifidelidade.network.ClienteNetwork
 import com.astetech.omnifidelidade.network.FidelidadeNetwork
 import com.astetech.omnifidelidade.network.FidelidadeService
+import com.astetech.omnifidelidade.network.PinNetwork
 import com.google.gson.Gson
 import java.net.ConnectException
 
@@ -35,11 +36,6 @@ class FidelidadeRepository () {
     }
 
     fun gravaCliente(cliente: ClienteNetwork) = liveData {
-
-        val gson = Gson()
-        var xxxx = gson.toJson(cliente)
-        Log.i("catalogo", xxxx)
-
         try {
             val resposta = FidelidadeNetwork.fidelidade.gravaCliente(Config.token, Config.tenant , cliente)
             if(resposta.isSuccessful){
@@ -55,5 +51,35 @@ class FidelidadeRepository () {
         }
     }
 
+    fun enviaPin(pinNetwork: PinNetwork) = liveData {
+        try {
+            val resposta = FidelidadeNetwork.fidelidade.enviaPin (Config.token, Config.tenant , pinNetwork)
+            if(resposta.isSuccessful){
+                emit(Resultado.Sucesso(data = resposta.body()))
+            } else {
+                emit(Resultado.Erro(exception = Exception("Falha ao enviar o pin")))
+            }
+        } catch (e: ConnectException) {
+            emit(Resultado.Erro(exception = Exception("Falha na comunicação com API")))
+        }
+        catch (e: Exception) {
+            emit(Resultado.Erro(exception = e))
+        }
+    }
 
+    fun validaPin(pinNetwork: PinNetwork) = liveData {
+        try {
+            val resposta = FidelidadeNetwork.fidelidade.validaPin (Config.token, Config.tenant , pinNetwork)
+            if(resposta.isSuccessful){
+                emit(Resultado.Sucesso(data = resposta.body()))
+            } else {
+                emit(Resultado.Erro(exception = Exception("Falha ao validar o pin")))
+            }
+        } catch (e: ConnectException) {
+            emit(Resultado.Erro(exception = Exception("Falha na comunicação com API")))
+        }
+        catch (e: Exception) {
+            emit(Resultado.Erro(exception = e))
+        }
+    }
 }

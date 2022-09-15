@@ -15,7 +15,7 @@
         android:layout_height="130dp"
         android:src="@drawable/logo2"/>
 
-    <Space
+    <View
         android:layout_width="380dp"
         android:layout_height="165dp" />
 

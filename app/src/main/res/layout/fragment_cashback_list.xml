@@ -18,8 +18,7 @@
         app:bottomShadowHeight="26dp"
         app:showNavigationButtons="false"
         app:autoPlay="true"
-        app:autoPlayDelay="5000"
-        />
+        app:autoPlayDelay="4000"/>
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/materialCardView3"
