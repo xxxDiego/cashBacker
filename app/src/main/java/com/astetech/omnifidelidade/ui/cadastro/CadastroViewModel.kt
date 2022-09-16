@@ -16,7 +16,6 @@ class CadastroViewModel : ViewModel() {
     sealed class RegistroStatus {
         object CadastrarCliente : RegistroStatus()
         object ColetarCredencial : RegistroStatus()
-        object CredencialValida : RegistroStatus()
         object RegistroCompleto : RegistroStatus()
         class CadastroClienteInvalido(val fields: List<Pair<String, Int>>) : RegistroStatus()
         class CredencialInvalida(val fields: List<Pair<String, Int>>) : RegistroStatus()
@@ -56,9 +55,6 @@ class CadastroViewModel : ViewModel() {
     fun CreateRegistrationCompleted() {
         _registrationStateEvent.value = RegistroStatus.RegistroCompleto
     }
-    fun CreateCredencialValida() {
-        _registrationStateEvent.value = RegistroStatus.CredencialValida
-    }
 
     private fun isValidCadastroCliente(
         nome: String,
@@ -69,7 +65,7 @@ class CadastroViewModel : ViewModel() {
     ): Boolean {
         val invalidFields = arrayListOf<Pair<String, Int>>()
 
-        if (nome.isEmpty()) {
+        if (nome.isEmpty() || nome.length < 5 || nome.trim().split(" ").count() < 2) {
             invalidFields.add(INPUT_NOME)
         }
         if (celular.isEmpty() || celular.length != 11) {

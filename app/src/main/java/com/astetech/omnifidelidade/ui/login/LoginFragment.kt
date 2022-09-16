@@ -106,11 +106,13 @@ class LoginFragment : Fragment() {
                 when (resultado) {
                     is Resultado.Sucesso -> {
                         resultado.data?.let { cliente ->
-                            if(cliente.cadastrado){
+                            if (cliente.cadastrado) {
                                 Config.clienteId = cliente.clienteId.toString()
                                 clienteAtual = cliente
+                                cliente.cadastrado
+                            } else {
+                                false
                             }
-                            cliente.cadastrado
                         } ?: false
                     }
                     is Resultado.Erro -> {
@@ -118,16 +120,19 @@ class LoginFragment : Fragment() {
                     }
                 }
             } ?: false
-            val pref =  activity?.getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE)
+            val pref = activity?.getSharedPreferences(
+                getString(R.string.preference_file_key),
+                Context.MODE_PRIVATE
+            )
             val cellphone = pref?.getString("telefone", "")
 
             if (cadastrado) {
-                if(clienteAtual.celular == cellphone){
+                if (clienteAtual.celular == cellphone) {
                     directions = LoginFragmentDirections.actionLoginFragmentToBonus()
                     navController.navigate(directions!!)
-                }
-                else{
-                    directions = LoginFragmentDirections.actionLoginFragmentToChooseCredentialsFragment(clienteAtual)
+                } else {
+                    directions =
+                        LoginFragmentDirections.actionLoginFragmentToChooseCredentialsFragment(clienteAtual,"LoginFragment")
                     navController.navigate(directions!!)
                 }
                 directions = LoginFragmentDirections.actionLoginFragmentToBonus()

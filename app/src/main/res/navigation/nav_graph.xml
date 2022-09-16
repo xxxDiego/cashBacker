@@ -46,7 +46,13 @@
         <argument
             android:name="cliente"
             app:argType="com.astetech.omnifidelidade.models.Cliente"
-            app:nullable="false" />
+            app:nullable="false"
+            />
+        <argument
+            android:name="telaAnterior"
+            app:argType="string"
+            app:nullable="false"
+            />
     </fragment>
     <include app:graph="@navigation/notificacoes" />
     <include app:graph="@navigation/cashback" />

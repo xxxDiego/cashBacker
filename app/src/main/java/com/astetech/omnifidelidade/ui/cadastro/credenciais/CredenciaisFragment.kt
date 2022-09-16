@@ -29,6 +29,7 @@ class CredenciaisFragment : Fragment() {
 
     private val args: CredenciaisFragmentArgs by navArgs()
     private lateinit var celularArg: String
+    private lateinit var telaAnterior: String
 
     private var _binding: FragmentCredenciaisBinding? = null
     private val binding get() = _binding!!
@@ -53,6 +54,7 @@ class CredenciaisFragment : Fragment() {
         registerViewListeners()
         cancelAuthentication()
         celularArg = args.cliente.celular.removeMask()
+        telaAnterior = args.telaAnterior
         enviaPin(celularArg)
     }
 
@@ -69,11 +71,10 @@ class CredenciaisFragment : Fragment() {
                     }
                 }
                 is CadastroViewModel.RegistroStatus.RegistroCompleto -> {
-                    if (cadastroViewModel.verificaClienteNovo()) {
+                    if (telaAnterior == "ClienteFragment") {
                         gravaCliente()
                     }
                     else {
-
                         val pref =  activity?.getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE)
                         with (pref!!.edit()) {
                             putString("telefone", celularArg)

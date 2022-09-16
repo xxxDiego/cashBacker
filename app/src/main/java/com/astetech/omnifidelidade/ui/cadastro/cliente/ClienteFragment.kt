@@ -55,7 +55,6 @@ class ClienteFragment : Fragment() {
         listenToRegistrationStateEvent(validationFields)
         registerViewListeners()
         cancelAuthentication()
-
         binding.inputCelular.setText(args.celular)
     }
 
@@ -72,7 +71,7 @@ class ClienteFragment : Fragment() {
             when (registrationState) {
                 is CadastroViewModel.RegistroStatus.ColetarCredencial -> {
                     directions = ClienteFragmentDirections
-                        .actionProfileDataFragmentToChooseCredentialsFragment(cadastroViewModel.cliente)
+                        .actionProfileDataFragmentToChooseCredentialsFragment(cadastroViewModel.cliente, "ClienteFragment")
                 }
                 is CadastroViewModel.RegistroStatus.CadastroClienteInvalido -> {
                     registrationState.fields.forEach { fieldError ->
@@ -128,6 +127,7 @@ class ClienteFragment : Fragment() {
     }
 
     private fun cancelAuthentication() {
+        directions = null
         cadastroViewModel.refuseAuthentication()
         binding.inputLayoutNome.dismissError()
         binding.inputLayoutCelular.dismissError()
