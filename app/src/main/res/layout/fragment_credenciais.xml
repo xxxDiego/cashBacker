@@ -30,13 +30,15 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="130dp" />
+        android:layout_height="80dp" />
 
-    <androidx.appcompat.widget.AppCompatTextView
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text = "Insira o PIN enviado para o seu celular:"
-        tools:text="Insira o PIN enviado para o seu celular:" />
+        android:text="Insira o PIN enviado para o seu celular"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        tools:text="Insira o PIN enviado para o seu celular" />
 
     <View
         android:layout_width="match_parent"
@@ -54,11 +56,19 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="number"
-            android:textAlignment="center"
             android:maxLength="4"
-            tools:text="8888"/>
+            android:textAlignment="center"
+            tools:text="8888" />
 
     </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Caso não receba nos próximos minutos clique no botão reenviar PIN."
+        android:layout_marginTop="10dp"
+        tools:text="Caso não receba nos próximos minutos clique no botão reenviar PIN."
+        />
 
     <View
         android:layout_width="match_parent"
@@ -70,5 +80,12 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/forms_default_margin_top"
         android:text="@string/common_finish" />
+
+    <Button
+        android:id="@+id/reenviar_button"
+        style="?attr/materialButtonOutlinedStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Reenviar PIN" />
 
 </LinearLayout>

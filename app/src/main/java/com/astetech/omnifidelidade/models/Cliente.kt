@@ -26,4 +26,14 @@ data class Cliente (
             dataNascimento = this.dataNascimento.dateToDb()
         )
     }
+    fun NetworkToCliente(clienteNetwork: ClienteNetwork): Cliente {
+        return Cliente (
+            "",
+            nomeCliente = clienteNetwork.nome ,
+            celular = clienteNetwork.celular,
+            cpf = clienteNetwork.cpf,
+            emailCliente = clienteNetwork.email,
+            dataNascimento = clienteNetwork.dataNascimento
+        )
+    }
 }

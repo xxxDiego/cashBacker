@@ -57,10 +57,10 @@ class FidelidadeRepository () {
             if(resposta.isSuccessful){
                 emit(Resultado.Sucesso(data = resposta.body()))
             } else {
-                emit(Resultado.Erro(exception = Exception("Falha ao enviar o pin")))
+                emit(Resultado.Erro(exception = Exception("Falha ao enviar o PIN")))
             }
         } catch (e: ConnectException) {
-            emit(Resultado.Erro(exception = Exception("Falha na comunicação com API")))
+            emit(Resultado.Erro(exception = Exception("Falha na comunicação com o serviço")))
         }
         catch (e: Exception) {
             emit(Resultado.Erro(exception = e))

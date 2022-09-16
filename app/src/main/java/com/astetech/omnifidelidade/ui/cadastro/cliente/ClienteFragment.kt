@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -12,10 +13,13 @@ import androidx.navigation.NavController
 import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.astetech.omnifidelidade.R
 import com.astetech.omnifidelidade.databinding.FragmentClienteBinding
 import com.astetech.omnifidelidade.extensions.dismissError
 import com.astetech.omnifidelidade.extensions.navigateWithAnimations
 import com.astetech.omnifidelidade.extensions.removeMask
+import com.astetech.omnifidelidade.models.Config
+import com.astetech.omnifidelidade.repository.Resultado
 import com.astetech.omnifidelidade.ui.cadastro.CadastroViewModel
 import com.astetech.omnifidelidade.util.Mask
 import com.github.rtoshiro.util.format.SimpleMaskFormatter
@@ -64,34 +68,26 @@ class ClienteFragment : Fragment() {
     )
 
     private fun listenToRegistrationStateEvent(validationFields: Map<String, TextInputLayout>) {
-        cadastroViewModel.registrationStateEvent.observe(viewLifecycleOwner, Observer { registrationState ->
+        cadastroViewModel.registrationStateEvent.observe(viewLifecycleOwner) { registrationState ->
             when (registrationState) {
-                is CadastroViewModel.RegistrationState.CollectCredentials -> {
+                is CadastroViewModel.RegistroStatus.ColetarCredencial -> {
                     directions = ClienteFragmentDirections
                         .actionProfileDataFragmentToChooseCredentialsFragment(cadastroViewModel.cliente)
                 }
-                is CadastroViewModel.RegistrationState.InvalidProfileData -> {
+                is CadastroViewModel.RegistroStatus.CadastroClienteInvalido -> {
                     registrationState.fields.forEach { fieldError ->
                         validationFields[fieldError.first]?.error = getString(fieldError.second)
                     }
                 }
                 else -> {}
             }
-        })
+        }
     }
 
     private fun registerViewListeners() {
 
         binding.buttonProximo.setOnClickListener {
-            val nome = binding.inputNome.text.toString()
-            val celular = binding.inputCelular.text.toString().removeMask()
-            val cpf = binding.inputCpf.text.toString()
-            val email = binding.inputEmail.text.toString()
-            val dataNascimento = binding.inputDataNascimento.text.toString()
-
-
-            cadastroViewModel.collectProfileData(nome, celular, cpf, email, dataNascimento)
-
+            cadastrarCliente()
             if (directions != null) {
                 navController.navigateWithAnimations(directions!!)
             }
@@ -120,6 +116,15 @@ class ClienteFragment : Fragment() {
         binding.inputDataNascimento.addTextChangedListener {
             binding.inputLayoutDataNascimento.dismissError()
         }
+    }
+
+    private fun cadastrarCliente() {
+        val nome = binding.inputNome.text.toString()
+        val celular = binding.inputCelular.text.toString().removeMask()
+        val cpf = binding.inputCpf.text.toString()
+        val email = binding.inputEmail.text.toString()
+        val dataNascimento = binding.inputDataNascimento.text.toString()
+        cadastroViewModel.cadastrarCliente(nome, celular, cpf, email, dataNascimento)
     }
 
     private fun cancelAuthentication() {

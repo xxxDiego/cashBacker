@@ -16,6 +16,9 @@
         <action
             android:id="@+id/action_loginFragment_to_bonus"
             app:destination="@id/home" />
+        <action
+            android:id="@+id/action_loginFragment_to_chooseCredentialsFragment"
+            app:destination="@id/chooseCredentialsFragment" />
     </fragment>
     <fragment
         android:id="@+id/profileDataFragment"

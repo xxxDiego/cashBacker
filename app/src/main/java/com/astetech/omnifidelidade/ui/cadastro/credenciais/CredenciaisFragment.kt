@@ -1,5 +1,6 @@
 package com.astetech.omnifidelidade.ui.cadastro.credenciais
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,12 +9,13 @@ import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.astetech.omnifidelidade.R
 import com.astetech.omnifidelidade.databinding.FragmentCredenciaisBinding
 import com.astetech.omnifidelidade.extensions.dismissError
+import com.astetech.omnifidelidade.extensions.removeMask
 import com.astetech.omnifidelidade.models.Config
 import com.astetech.omnifidelidade.repository.Resultado
 import com.astetech.omnifidelidade.ui.cadastro.CadastroViewModel
@@ -25,9 +27,10 @@ class CredenciaisFragment : Fragment() {
 
     private val cadastroViewModel: CadastroViewModel by activityViewModels()
 
-    //private val args: ChooseCredentialsFragmentArgs by navArgs()
+    private val args: CredenciaisFragmentArgs by navArgs()
+    private lateinit var celularArg: String
 
-    private var _binding:  FragmentCredenciaisBinding? = null
+    private var _binding: FragmentCredenciaisBinding? = null
     private val binding get() = _binding!!
 
     private val navController: NavController by lazy {
@@ -49,6 +52,8 @@ class CredenciaisFragment : Fragment() {
         listenToRegistrationStateEvent(validationFields)
         registerViewListeners()
         cancelAuthentication()
+        celularArg = args.cliente.celular.removeMask()
+        enviaPin(celularArg)
     }
 
     private fun initValidationFields() = mapOf(
@@ -58,13 +63,24 @@ class CredenciaisFragment : Fragment() {
     private fun listenToRegistrationStateEvent(validationFields: Map<String, TextInputLayout>) {
         cadastroViewModel.registrationStateEvent.observe(viewLifecycleOwner) { registrationState ->
             when (registrationState) {
-                is CadastroViewModel.RegistrationState.InvalidCredentials -> {
+                is CadastroViewModel.RegistroStatus.CredencialInvalida -> {
                     registrationState.fields.forEach { fieldError ->
                         validationFields[fieldError.first]?.error = getString(fieldError.second)
                     }
                 }
-                is CadastroViewModel.RegistrationState.RegistrationCompleted -> {
-                    gravaCliente()
+                is CadastroViewModel.RegistroStatus.RegistroCompleto -> {
+                    if (cadastroViewModel.verificaClienteNovo()) {
+                        gravaCliente()
+                    }
+                    else {
+
+                        val pref =  activity?.getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE)
+                        with (pref!!.edit()) {
+                            putString("telefone", celularArg)
+                            apply()
+                        }
+                        navController.navigate(R.id.action_chooseCredentialsFragment_to_bonus)
+                    }
                 }
                 else -> {
 
@@ -74,12 +90,12 @@ class CredenciaisFragment : Fragment() {
     }
 
     private fun gravaCliente() {
-        cadastroViewModel.gravaCliente().observe(viewLifecycleOwner){
-            val cadastrado = it?.let { resultado ->
+        cadastroViewModel.gravaCliente().observe(viewLifecycleOwner) {
+            var result = it?.let { resultado ->
                 when (resultado) {
                     is Resultado.Sucesso -> {
                         resultado.data?.let { cliente ->
-                            if(cliente.cadastrado){
+                            if (cliente.cadastrado) {
                                 Config.clienteId = cliente.clienteId
                             }
                             cliente.cadastrado
@@ -90,11 +106,9 @@ class CredenciaisFragment : Fragment() {
                     }
                 }
             } ?: false
-
-            if (cadastrado) {
+            if (result) {
                 navController.navigate(R.id.action_chooseCredentialsFragment_to_bonus)
-            }
-            else {
+            } else {
                 Toast.makeText(activity,"Houve um erro ao cadastrar o cliente!",Toast.LENGTH_SHORT).show()
             }
         }
@@ -102,19 +116,45 @@ class CredenciaisFragment : Fragment() {
 
     private fun registerViewListeners() {
         binding.buttonChooseCredentialsNext.setOnClickListener {
-           val pin = binding.inputPin.text.toString()
+            val pin = binding.inputPin.text.toString()
 
-            if(cadastroViewModel.createCredentials(pin)){
+            if (cadastroViewModel.createCredentials(pin)) {
                 validaPin(pin)
             }
         }
         binding.inputPin.addTextChangedListener {
             binding.inputLayoutPin.dismissError()
         }
+
+        binding.reenviarButton.setOnClickListener {
+            enviaPin(celularArg)
+        }
     }
 
-    private fun validaPin(pin: String){
-        cadastroViewModel.validaPin(pin).observe(viewLifecycleOwner){
+    private fun enviaPin(celular: String) {
+        cadastroViewModel.enviaPin(celular).observe(viewLifecycleOwner) {
+            var mensagem = ""
+            val retorno = it?.let { resultado ->
+                when (resultado) {
+                    is Resultado.Sucesso -> {
+                        resultado.data?.let { enviado ->
+                            enviado
+                        } ?: false
+                    }
+                    is Resultado.Erro -> {
+                        mensagem = resultado.exception?.message.toString()
+                        false
+                    }
+                }
+            } ?: false
+            if (!retorno) {
+                Toast.makeText(activity, mensagem, Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    private fun validaPin(pin: String) {
+        cadastroViewModel.validaPin(pin, celularArg).observe(viewLifecycleOwner) {
             val validado = it?.let { resultado ->
                 when (resultado) {
                     is Resultado.Sucesso -> {
@@ -127,12 +167,11 @@ class CredenciaisFragment : Fragment() {
                     }
                 }
             } ?: false
-            if (validado){
+            if (validado) {
                 cadastroViewModel.CreateRegistrationCompleted()
-            }else{
-                binding.inputLayoutPin.error = R.string.credenciais_input_layout_error_pin.toString()
+            } else {
+                binding.inputLayoutPin.error = "PIN inválido"
             }
-
         }
     }
 

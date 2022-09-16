@@ -5,6 +5,7 @@
     <string name="common_next">Próximo</string>
     <string name="common_finish">Avançar</string>
     <string name="login_action_bar_title"></string>
+    <string name="preference_file_key">preferences</string>
 
     <!-- App Menu -->
     <string name="app_menu_home">Home</string>

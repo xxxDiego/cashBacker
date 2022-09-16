@@ -1,5 +1,6 @@
 package com.astetech.omnifidelidade.ui.login
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,9 +12,11 @@ import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
+import com.astetech.omnifidelidade.R
 import com.astetech.omnifidelidade.databinding.FragmentLoginBinding
 import com.astetech.omnifidelidade.extensions.dismissError
 import com.astetech.omnifidelidade.extensions.removeMask
+import com.astetech.omnifidelidade.models.Cliente
 import com.astetech.omnifidelidade.models.Config
 import com.astetech.omnifidelidade.repository.Resultado
 import com.github.rtoshiro.util.format.SimpleMaskFormatter
@@ -30,6 +33,8 @@ class LoginFragment : Fragment() {
     private val navController: NavController by lazy {
         findNavController()
     }
+
+    private lateinit var clienteAtual: Cliente
 
     private var directions: NavDirections? = null
 
@@ -57,14 +62,14 @@ class LoginFragment : Fragment() {
 
     private fun listenToAuthenticationStateEvent(validationFields: Map<String, TextInputLayout>) {
         viewModel.authenticationStateEvent.observe(
-            viewLifecycleOwner,
-            Observer { authenticationState ->
-                if (authenticationState is LoginViewModel.AuthenticationState.InvalidAuthentication) {
-                    authenticationState.fields.forEach { fieldError ->
-                        validationFields[fieldError.first]?.error = getString(fieldError.second)
-                    }
+            viewLifecycleOwner
+        ) { authenticationState ->
+            if (authenticationState is LoginViewModel.AuthenticationState.InvalidAuthentication) {
+                authenticationState.fields.forEach { fieldError ->
+                    validationFields[fieldError.first]?.error = getString(fieldError.second)
                 }
-            })
+            }
+        }
     }
 
     private fun registerViewListeners() {
@@ -103,6 +108,7 @@ class LoginFragment : Fragment() {
                         resultado.data?.let { cliente ->
                             if(cliente.cadastrado){
                                 Config.clienteId = cliente.clienteId.toString()
+                                clienteAtual = cliente
                             }
                             cliente.cadastrado
                         } ?: false
@@ -112,8 +118,18 @@ class LoginFragment : Fragment() {
                     }
                 }
             } ?: false
+            val pref =  activity?.getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE)
+            val cellphone = pref?.getString("telefone", "")
 
             if (cadastrado) {
+                if(clienteAtual.celular == cellphone){
+                    directions = LoginFragmentDirections.actionLoginFragmentToBonus()
+                    navController.navigate(directions!!)
+                }
+                else{
+                    directions = LoginFragmentDirections.actionLoginFragmentToChooseCredentialsFragment(clienteAtual)
+                    navController.navigate(directions!!)
+                }
                 directions = LoginFragmentDirections.actionLoginFragmentToBonus()
                 navController.navigate(directions!!)
             } else {
