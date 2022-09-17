@@ -53,7 +53,7 @@ class LoginFragment : Fragment() {
         listenToAuthenticationStateEvent(validationFields)
         registerViewListeners()
         cancelAuthentication()
-        binding.inputCelular.setText("(11) 99485-4564")
+        //binding.inputCelular.setText("(11) 99485-4564")
     }
 
     private fun initValidationFields() = mapOf(

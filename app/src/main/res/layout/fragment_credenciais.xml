@@ -86,6 +86,6 @@
         style="?attr/materialButtonOutlinedStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Reenviar PIN" />
+        android:text="@string/credenciais_reenviar_button" />
 
 </LinearLayout>

@@ -120,7 +120,8 @@ class CashbackViewModel() : ViewModel() {
                         response.body()?.let {
                             val cashbackRetorno = NetworkCashbackContainer(it).asDomainModel()
 
-                            _cashbackList = cashbackRetorno.sortedByDescending { c -> stringToLocalDate(c.dataValidade) }
+                            _cashbackList = cashbackRetorno.filter { c-> c.valor > 0 }
+                                .sortedByDescending { c -> stringToLocalDate(c.dataValidade) }
                             _cashbackListLive.postValue(_cashbackList)
 
 
@@ -133,7 +134,6 @@ class CashbackViewModel() : ViewModel() {
                 }
             })
         } catch (networkError: IOException) {
-            // Show a Toast error message and hide the progress bar.
             Log.e(TAG, networkError.message.toString())
             _eventNetworkError.value = true
         }

@@ -2,6 +2,7 @@ package com.astetech.omnifidelidade.ui.cadastro.credenciais
 
 import android.content.Context
 import android.os.Bundle
+import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +10,7 @@ import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -20,6 +22,10 @@ import com.astetech.omnifidelidade.models.Config
 import com.astetech.omnifidelidade.repository.Resultado
 import com.astetech.omnifidelidade.ui.cadastro.CadastroViewModel
 import com.google.android.material.textfield.TextInputLayout
+import kotlinx.coroutines.*
+import okhttp3.Dispatcher
+import java.util.*
+import kotlin.concurrent.schedule
 
 
 class CredenciaisFragment : Fragment() {
@@ -73,10 +79,12 @@ class CredenciaisFragment : Fragment() {
                 is CadastroViewModel.RegistroStatus.RegistroCompleto -> {
                     if (telaAnterior == "ClienteFragment") {
                         gravaCliente()
-                    }
-                    else {
-                        val pref =  activity?.getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE)
-                        with (pref!!.edit()) {
+                    } else {
+                        val pref = activity?.getSharedPreferences(
+                            getString(R.string.preference_file_key),
+                            Context.MODE_PRIVATE
+                        )
+                        with(pref!!.edit()) {
                             putString("telefone", celularArg)
                             apply()
                         }
@@ -110,7 +118,11 @@ class CredenciaisFragment : Fragment() {
             if (result) {
                 navController.navigate(R.id.action_chooseCredentialsFragment_to_bonus)
             } else {
-                Toast.makeText(activity,"Houve um erro ao cadastrar o cliente!",Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    activity,
+                    "Houve um erro ao cadastrar o cliente!",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
     }
@@ -129,7 +141,17 @@ class CredenciaisFragment : Fragment() {
 
         binding.reenviarButton.setOnClickListener {
             enviaPin(celularArg)
+            binding.reenviarButton.isEnabled = false
+
+            lifecycleScope.launch {
+                ativarReenviar()
+            }
         }
+    }
+
+    private suspend fun ativarReenviar() {
+                delay(20000L)
+                binding.reenviarButton.isEnabled = true
     }
 
     private fun enviaPin(celular: String) {
@@ -148,7 +170,9 @@ class CredenciaisFragment : Fragment() {
                     }
                 }
             } ?: false
-            if (!retorno) {
+            if (retorno) {
+                Toast.makeText(activity, "PIN enviado!", Toast.LENGTH_SHORT).show()
+            } else {
                 Toast.makeText(activity, mensagem, Toast.LENGTH_SHORT).show()
             }
         }

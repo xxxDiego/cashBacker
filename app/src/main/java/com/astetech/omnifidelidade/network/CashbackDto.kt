@@ -30,7 +30,7 @@ fun NetworkCashbackContainer.asDomainModel(): List<Cashback> {
             empresa = networkCashback.grupo,
             valor = networkCashback.bonusGerado,
             dataValidade =  networkCashback.validoAte ,
-            dataAtivacao = networkCashback.validoAte,
+            dataAtivacao = networkCashback.vigenteDe,
             dataCompra = networkCashback.dataCompra ,
             imageUrl = Config.obterImagem(networkCashback.grupo),
             loja = networkCashback.loja,
