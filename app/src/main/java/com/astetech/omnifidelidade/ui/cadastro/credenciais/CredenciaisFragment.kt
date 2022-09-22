@@ -2,7 +2,6 @@ package com.astetech.omnifidelidade.ui.cadastro.credenciais
 
 import android.content.Context
 import android.os.Bundle
-import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,19 +16,15 @@ import androidx.navigation.fragment.navArgs
 import com.astetech.omnifidelidade.R
 import com.astetech.omnifidelidade.databinding.FragmentCredenciaisBinding
 import com.astetech.omnifidelidade.extensions.dismissError
+import com.astetech.omnifidelidade.extensions.firstCharUpper
 import com.astetech.omnifidelidade.extensions.removeMask
 import com.astetech.omnifidelidade.models.Config
 import com.astetech.omnifidelidade.repository.Resultado
 import com.astetech.omnifidelidade.ui.cadastro.CadastroViewModel
 import com.google.android.material.textfield.TextInputLayout
 import kotlinx.coroutines.*
-import okhttp3.Dispatcher
-import java.util.*
-import kotlin.concurrent.schedule
-
 
 class CredenciaisFragment : Fragment() {
-
 
     private val cadastroViewModel: CadastroViewModel by activityViewModels()
 
@@ -106,6 +101,7 @@ class CredenciaisFragment : Fragment() {
                         resultado.data?.let { cliente ->
                             if (cliente.cadastrado) {
                                 Config.clienteId = cliente.clienteId
+                                Config.clienteNome = cliente.nomeCliente?.trim()?.split(" ")?.first()?.firstCharUpper()?: ""
                             }
                             cliente.cadastrado
                         } ?: false
@@ -204,7 +200,6 @@ class CredenciaisFragment : Fragment() {
         cadastroViewModel.refuseAuthentication()
         binding.inputLayoutPin.dismissError()
     }
-
 
     override fun onDestroyView() {
         super.onDestroyView()

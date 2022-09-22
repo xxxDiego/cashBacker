@@ -39,7 +39,7 @@ class MainActivity : AppCompatActivity() {
         val semMenu = listOf(R.id.loginFragment, R.id.profileDataFragment, R.id.chooseCredentialsFragment )
 
         appBarConfiguration = AppBarConfiguration(
-            setOf(R.id.loginFragment, R.id.bonusFragment, R.id.notificacoesFragment, R.id.atividadesFragment)
+            setOf(R.id.loginFragment, R.id.bonusFragment, R.id.notificacoesFragment, R.id.atividadesFragment, R.id.opcoesFragment)
         )
 
         setupActionBarWithNavController(navController, appBarConfiguration)

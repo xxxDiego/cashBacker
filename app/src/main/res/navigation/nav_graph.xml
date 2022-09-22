@@ -57,4 +57,5 @@
     <include app:graph="@navigation/notificacoes" />
     <include app:graph="@navigation/cashback" />
     <include app:graph="@navigation/atividades" />
+    <include app:graph="@navigation/opcoes" />
 </navigation>

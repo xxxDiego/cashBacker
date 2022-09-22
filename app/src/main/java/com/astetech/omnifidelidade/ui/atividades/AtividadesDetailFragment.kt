@@ -5,7 +5,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.net.toUri
 import androidx.navigation.fragment.navArgs
+import coil.load
 import com.astetech.omnifidelidade.R
 import com.astetech.omnifidelidade.databinding.FragmentAtividadesDetailBinding
 import com.astetech.omnifidelidade.databinding.FragmentCashbackDetailBinding
@@ -29,6 +31,13 @@ class AtividadesDetailFragment : Fragment() {
 
         // Receive the arguments in a variable
         val cashback = args.cashback
+
+
+        val imgUri = cashback.imageUrl.toUri().buildUpon().scheme("https").build()
+        binding.empresaImage.load(imgUri) {
+            placeholder(R.drawable.loading_img)
+            error(R.drawable.no_img)
+        }
 
         binding.loja.text = cashback.loja
         binding.marca.text = cashback.empresa

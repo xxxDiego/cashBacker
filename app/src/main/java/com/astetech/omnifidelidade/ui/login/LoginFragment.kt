@@ -15,6 +15,7 @@ import androidx.navigation.fragment.findNavController
 import com.astetech.omnifidelidade.R
 import com.astetech.omnifidelidade.databinding.FragmentLoginBinding
 import com.astetech.omnifidelidade.extensions.dismissError
+import com.astetech.omnifidelidade.extensions.firstCharUpper
 import com.astetech.omnifidelidade.extensions.removeMask
 import com.astetech.omnifidelidade.models.Cliente
 import com.astetech.omnifidelidade.models.Config
@@ -22,6 +23,7 @@ import com.astetech.omnifidelidade.repository.Resultado
 import com.github.rtoshiro.util.format.SimpleMaskFormatter
 import com.github.rtoshiro.util.format.text.MaskTextWatcher
 import com.google.android.material.textfield.TextInputLayout
+import java.util.*
 
 class LoginFragment : Fragment() {
 
@@ -53,7 +55,7 @@ class LoginFragment : Fragment() {
         listenToAuthenticationStateEvent(validationFields)
         registerViewListeners()
         cancelAuthentication()
-        //binding.inputCelular.setText("(11) 99485-4564")
+        binding.inputCelular.setText("(11) 99485-4564")
     }
 
     private fun initValidationFields() = mapOf(
@@ -127,7 +129,11 @@ class LoginFragment : Fragment() {
             val cellphone = pref?.getString("telefone", "")
 
             if (cadastrado) {
-                if (clienteAtual.celular == cellphone) {
+
+                Config.clienteNome = clienteAtual?.nomeCliente?.trim()?.split(" ")?.first()?.firstCharUpper()?: ""
+
+                //if (clienteAtual.celular == cellphone) {
+                if (true) {
                     directions = LoginFragmentDirections.actionLoginFragmentToBonus()
                     navController.navigate(directions!!)
                 } else {

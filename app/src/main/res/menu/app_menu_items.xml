@@ -14,7 +14,7 @@
         android:icon="@drawable/baseline_notifications_24"
         android:title="@string/app_menu_notificacoes" />
     <item
-        android:id="@+id/mais"
+        android:id="@+id/opcoes"
         android:icon="@drawable/baseline_menu_24"
         android:title="@string/app_menu_mais" />
 </menu>
