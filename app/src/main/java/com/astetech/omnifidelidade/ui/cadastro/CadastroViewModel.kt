@@ -9,12 +9,14 @@ import com.astetech.omnifidelidade.repository.FidelidadeRepository
 import com.astetech.omnifidelidade.repository.Resultado
 import com.astetech.omnifidelidade.models.Config
 import com.astetech.omnifidelidade.network.response.ValidaPinResponse
+import com.astetech.omnifidelidade.singleton.ClienteSingleton
 
 
 class CadastroViewModel : ViewModel() {
 
     sealed class RegistroStatus {
         object CadastrarCliente : RegistroStatus()
+        object AlterarCliente : RegistroStatus()
         object ColetarCredencial : RegistroStatus()
         object RegistroCompleto : RegistroStatus()
         class CadastroClienteInvalido(val fields: List<Pair<String, Int>>) : RegistroStatus()
@@ -23,14 +25,18 @@ class CadastroViewModel : ViewModel() {
 
     private val repository = FidelidadeRepository()
 
-    private var clienteNovo = false
+    private var _cliente = Cliente()
+
+    val cliente : Cliente
+    get() = _cliente
+
 
     private val _registrationStateEvent =
         MutableLiveData<RegistroStatus>(RegistroStatus.CadastrarCliente)
+
     val registrationStateEvent: LiveData<RegistroStatus>
         get() = _registrationStateEvent
 
-    lateinit var cliente: Cliente
 
     fun cadastrarCliente(
         nome: String,
@@ -40,15 +46,20 @@ class CadastroViewModel : ViewModel() {
         dataNascimento: String
     ) {
         if (isValidCadastroCliente(nome, celular, cpf, email, dataNascimento)) {
-            this.cliente = Cliente(
-                nomeCliente = nome,
-                celular = celular,
-                cpf = cpf,
-                emailCliente = email,
-                dataNascimento = dataNascimento
-            )
-            _registrationStateEvent.value = RegistroStatus.ColetarCredencial
-            clienteNovo = true
+            _cliente.nome = nome
+            _cliente.celular = celular
+            _cliente.cpf = cpf
+            _cliente.email = email
+            _cliente.dataNascimento = dataNascimento
+
+            if (ClienteSingleton.cliente.cadastrado){
+                _cliente.id = ClienteSingleton.cliente.id
+                _registrationStateEvent.value = RegistroStatus.AlterarCliente
+            }
+            else{
+                _registrationStateEvent.value = RegistroStatus.ColetarCredencial
+            }
+
         }
     }
 
@@ -88,8 +99,8 @@ class CadastroViewModel : ViewModel() {
         return true
     }
 
-    fun createCredentials(pin: String):Boolean{
-       return isValidCredentials(pin)
+    fun createCredentials(pin: String): Boolean {
+        return isValidCredentials(pin)
     }
 
     private fun isValidCredentials(pin: String): Boolean {
@@ -111,7 +122,10 @@ class CadastroViewModel : ViewModel() {
 
     // network
     fun gravaCliente(): LiveData<Resultado<ClientePostResponse?>> =
-        repository.gravaCliente(this.cliente.clienteToNetwork())
+        repository.gravaCliente(_cliente.clienteToNetwork())
+
+    fun alteraCliente(): LiveData<Resultado<Boolean?>> =
+        repository.alteraCliente(_cliente.clienteToNetwork())
 
 
     fun enviaPin(celular: String): LiveData<Resultado<Boolean?>> {
@@ -124,16 +138,13 @@ class CadastroViewModel : ViewModel() {
         return repository.validaPin(pinNetwork)
     }
 
-    fun verificaClienteNovo(): Boolean{
-        return clienteNovo
-    }
-
     companion object {
         val INPUT_NOME = "INPUT_NOME" to R.string.cliente_input_layout_error_nome
         val INPUT_CELULAR = "INPUT_CELULAR" to R.string.cliente_input_layout_error_celular
         val INPUT_CPF = "INPUT_CPF" to R.string.cliente_input_layout_error_cpf
         val INPUT_EMAIL = "INPUT_EMAIL" to R.string.cliente_input_layout_error_email
-        val INPUT_DATANASCIMENTO ="INPUT_DATANASCIMENTO" to R.string.cliente_input_layout_error_datanascimento
+        val INPUT_DATANASCIMENTO =
+            "INPUT_DATANASCIMENTO" to R.string.cliente_input_layout_error_datanascimento
         val INPUT_PIN = "INPUT_PIN" to R.string.credenciais_input_layout_error_pin
     }
 

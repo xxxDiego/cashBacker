@@ -44,11 +44,6 @@
             app:destination="@id/home"
             app:popUpTo="@id/loginFragment" />
         <argument
-            android:name="cliente"
-            app:argType="com.astetech.omnifidelidade.models.Cliente"
-            app:nullable="false"
-            />
-        <argument
             android:name="telaAnterior"
             app:argType="string"
             app:nullable="false"

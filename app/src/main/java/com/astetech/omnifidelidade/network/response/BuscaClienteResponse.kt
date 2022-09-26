@@ -2,14 +2,14 @@ package com.astetech.omnifidelidade.network.response
 
 import com.astetech.omnifidelidade.models.Cliente
 
-data class ClientePostResponse(
-    val clienteId: String,
-    val nomeCliente: String,
-    val emailCliente: String,
-    val genero: String,
-    val dataNascimento: String,
-    val cadastrado: Boolean,
-    val cpf: String
+data class BuscaClienteResponse(
+    val clienteId: String = "",
+    var nomeCliente: String,
+    var emailCliente: String,
+    var dataNascimento: String,
+    val cadastrado: Boolean = false,
+    var cpf: String,
+    var celular: String
 ){
     fun toClienteDomainModel(): Cliente {
         val cliente = Cliente()
@@ -19,6 +19,7 @@ data class ClientePostResponse(
         cliente.dataNascimento = this.dataNascimento
         cliente.cadastrado = this.cadastrado
         cliente.cpf = this.cpf
+        cliente.celular = this.celular
         return cliente
     }
 }

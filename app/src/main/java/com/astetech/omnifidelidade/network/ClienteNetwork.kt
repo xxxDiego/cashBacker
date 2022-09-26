@@ -3,6 +3,7 @@ package com.astetech.omnifidelidade.network
 import com.astetech.omnifidelidade.models.Config
 
 data class ClienteNetwork(
+    var id: String,
     var nome: String,
     var celular: String,
     var email: String,

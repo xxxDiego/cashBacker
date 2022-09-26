@@ -8,22 +8,19 @@ import android.view.ViewGroup
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
 import com.astetech.omnifidelidade.R
 import com.astetech.omnifidelidade.databinding.FragmentLoginBinding
 import com.astetech.omnifidelidade.extensions.dismissError
-import com.astetech.omnifidelidade.extensions.firstCharUpper
 import com.astetech.omnifidelidade.extensions.removeMask
 import com.astetech.omnifidelidade.models.Cliente
-import com.astetech.omnifidelidade.models.Config
 import com.astetech.omnifidelidade.repository.Resultado
+import com.astetech.omnifidelidade.singleton.ClienteSingleton
 import com.github.rtoshiro.util.format.SimpleMaskFormatter
 import com.github.rtoshiro.util.format.text.MaskTextWatcher
 import com.google.android.material.textfield.TextInputLayout
-import java.util.*
 
 class LoginFragment : Fragment() {
 
@@ -35,8 +32,6 @@ class LoginFragment : Fragment() {
     private val navController: NavController by lazy {
         findNavController()
     }
-
-    private lateinit var clienteAtual: Cliente
 
     private var directions: NavDirections? = null
 
@@ -109,8 +104,7 @@ class LoginFragment : Fragment() {
                     is Resultado.Sucesso -> {
                         resultado.data?.let { cliente ->
                             if (cliente.cadastrado) {
-                                Config.clienteId = cliente.clienteId.toString()
-                                clienteAtual = cliente
+                                ClienteSingleton.cliente = cliente.toClienteDomainModel()
                                 cliente.cadastrado
                             } else {
                                 false
@@ -130,20 +124,17 @@ class LoginFragment : Fragment() {
 
             if (cadastrado) {
 
-                Config.clienteNome = clienteAtual?.nomeCliente?.trim()?.split(" ")?.first()?.firstCharUpper()?: ""
-
                 //if (clienteAtual.celular == cellphone) {
                 if (true) {
                     directions = LoginFragmentDirections.actionLoginFragmentToBonus()
                     navController.navigate(directions!!)
                 } else {
                     directions =
-                        LoginFragmentDirections.actionLoginFragmentToChooseCredentialsFragment(clienteAtual,"LoginFragment")
+                        LoginFragmentDirections.actionLoginFragmentToChooseCredentialsFragment("LoginFragment")
                     navController.navigate(directions!!)
                 }
-                directions = LoginFragmentDirections.actionLoginFragmentToBonus()
-                navController.navigate(directions!!)
             } else {
+                ClienteSingleton.cliente = Cliente()
                 directions =
                     LoginFragmentDirections.actionLoginFragmentToProfileDataFragment(binding.inputCelular.text.toString())
                 navController.navigate(directions!!)

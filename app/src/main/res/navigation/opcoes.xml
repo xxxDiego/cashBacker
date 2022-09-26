@@ -9,5 +9,19 @@
         android:id="@+id/opcoesFragment"
         android:name="com.astetech.omnifidelidade.ui.opcoes.OpcoesFragment"
         android:label="Ajustes"
-        tools:layout="@layout/fragment_opcoes" />
+        tools:layout="@layout/fragment_opcoes" >
+        <action
+            android:id="@+id/action_opcoesFragment_to_clienteFragment"
+            app:destination="@id/clienteFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/clienteFragment"
+        android:name="com.astetech.omnifidelidade.ui.cadastro.cliente.ClienteFragment"
+        android:label="Editar Dados"
+        tools:layout="@layout/fragment_cliente" >
+        <argument
+            android:name="celular"
+            app:argType="string"
+            app:nullable="false" />
+    </fragment>
 </navigation>

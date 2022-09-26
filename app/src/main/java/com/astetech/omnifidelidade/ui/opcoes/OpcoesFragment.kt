@@ -10,7 +10,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO
 import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES
@@ -18,7 +17,10 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.astetech.omnifidelidade.R
 import com.astetech.omnifidelidade.databinding.FragmentOpcoesBinding
-import com.astetech.omnifidelidade.models.Config
+import com.astetech.omnifidelidade.extensions.firstCharUpper
+import com.astetech.omnifidelidade.models.Cliente
+import com.astetech.omnifidelidade.singleton.ClienteSingleton
+
 
 
 class OpcoesFragment : Fragment() {
@@ -42,7 +44,7 @@ class OpcoesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.nomeText.text = getString(R.string.opcoes_text_name, Config.clienteNome) + "!"
+        binding.nomeText.text = getString(R.string.opcoes_text_name, ClienteSingleton.cliente.nome?.trim()?.split(" ")?.first()?.firstCharUpper()) + "!"
 
         when (context?.resources?.configuration?.uiMode?.and(Configuration.UI_MODE_NIGHT_MASK)) {
             Configuration.UI_MODE_NIGHT_YES -> {
@@ -62,7 +64,13 @@ class OpcoesFragment : Fragment() {
             }else{
                 AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_NO)
             }
+        }
 
+        binding.nextText.setOnClickListener{
+
+            val directions = OpcoesFragmentDirections.actionOpcoesFragmentToClienteFragment(ClienteSingleton.cliente.celular)
+
+            navController.navigate(directions)
         }
 
         binding.logoutImage.setOnClickListener{
@@ -106,6 +114,7 @@ class OpcoesFragment : Fragment() {
     }
 
     private fun navegar(){
+        ClienteSingleton.cliente = Cliente()
         navController.popBackStack(R.id.loginFragment, false)
     }
 

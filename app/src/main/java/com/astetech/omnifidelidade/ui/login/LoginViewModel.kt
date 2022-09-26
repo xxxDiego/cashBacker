@@ -6,6 +6,7 @@ import com.astetech.omnifidelidade.R
 import com.astetech.omnifidelidade.models.Cliente
 import com.astetech.omnifidelidade.network.FidelidadeNetwork
 import com.astetech.omnifidelidade.network.FidelidadeService
+import com.astetech.omnifidelidade.network.response.BuscaClienteResponse
 import com.astetech.omnifidelidade.repository.FidelidadeRepository
 import com.astetech.omnifidelidade.repository.Resultado
 import kotlinx.coroutines.launch
@@ -46,7 +47,7 @@ class LoginViewModel() : ViewModel() {
         return isValidForm(usuarioCelular)
     }
     
-    fun buscaUsuario(celular: String): LiveData<Resultado<Cliente?>> =
+    fun buscaUsuario(celular: String): LiveData<Resultado<BuscaClienteResponse?>> =
         repository.buscaCliente(celular)
 
     private fun isValidForm(usuarioCelular: String): Boolean {

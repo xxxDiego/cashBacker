@@ -20,7 +20,10 @@ import com.astetech.omnifidelidade.extensions.navigateWithAnimations
 import com.astetech.omnifidelidade.extensions.removeMask
 import com.astetech.omnifidelidade.models.Config
 import com.astetech.omnifidelidade.repository.Resultado
+import com.astetech.omnifidelidade.singleton.ClienteSingleton
 import com.astetech.omnifidelidade.ui.cadastro.CadastroViewModel
+import com.astetech.omnifidelidade.ui.login.LoginFragmentDirections
+import com.astetech.omnifidelidade.ui.opcoes.OpcoesFragmentDirections
 import com.astetech.omnifidelidade.util.Mask
 import com.github.rtoshiro.util.format.SimpleMaskFormatter
 import com.github.rtoshiro.util.format.text.MaskTextWatcher
@@ -55,7 +58,22 @@ class ClienteFragment : Fragment() {
         listenToRegistrationStateEvent(validationFields)
         registerViewListeners()
         cancelAuthentication()
-        binding.inputCelular.setText(args.celular)
+        initInfos()
+    }
+
+    private fun initInfos(){
+        if(ClienteSingleton.cliente.cadastrado){
+            binding.inputCelular.setText(ClienteSingleton.cliente.celular)
+            binding.inputNome.setText(ClienteSingleton.cliente.nome)
+            binding.inputCpf.setText(ClienteSingleton.cliente.cpf)
+            binding.inputEmail.setText(ClienteSingleton.cliente.email)
+            binding.inputDataNascimento.setText(ClienteSingleton.cliente.dataNascimento)
+
+            binding.buttonProximo.text = "Salvar"
+        }
+        else{
+            binding.inputCelular.setText(args.celular)
+        }
     }
 
     private fun initValidationFields() = mapOf(
@@ -71,7 +89,10 @@ class ClienteFragment : Fragment() {
             when (registrationState) {
                 is CadastroViewModel.RegistroStatus.ColetarCredencial -> {
                     directions = ClienteFragmentDirections
-                        .actionProfileDataFragmentToChooseCredentialsFragment(cadastroViewModel.cliente, "ClienteFragment")
+                        .actionProfileDataFragmentToChooseCredentialsFragment("ClienteFragment")
+                }
+                is CadastroViewModel.RegistroStatus.AlterarCliente -> {
+                    alteraCliente()
                 }
                 is CadastroViewModel.RegistroStatus.CadastroClienteInvalido -> {
                     registrationState.fields.forEach { fieldError ->
@@ -134,6 +155,36 @@ class ClienteFragment : Fragment() {
         binding.inputLayoutCpf.dismissError()
         binding.inputLayoutEmail.dismissError()
         binding.inputLayoutDataNascimento.dismissError()
+    }
+
+    private fun alteraCliente() {
+        cadastroViewModel.alteraCliente().observe(viewLifecycleOwner) {
+            var result = it?.let { resultado ->
+                when (resultado) {
+                    is Resultado.Sucesso -> {
+                        resultado.data?.let { cliente ->
+                            ClienteSingleton.cliente = cadastroViewModel.cliente
+                            ClienteSingleton.cliente.cadastrado = true
+                            cliente
+                        } ?: false
+                    }
+                    is Resultado.Erro -> {
+                        false
+                    }
+                }
+            } ?: false
+            if (result) {
+                Toast.makeText(activity, "Dados alterados com sucesso!", Toast.LENGTH_SHORT).show()
+
+                navController.popBackStack(R.id.opcoesFragment, false)
+            } else {
+                Toast.makeText(
+                    activity,
+                    "Houve um erro ao tentar alterar os dados!",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
     }
 
     override fun onDestroyView() {

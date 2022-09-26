@@ -16,10 +16,9 @@ import androidx.navigation.fragment.navArgs
 import com.astetech.omnifidelidade.R
 import com.astetech.omnifidelidade.databinding.FragmentCredenciaisBinding
 import com.astetech.omnifidelidade.extensions.dismissError
-import com.astetech.omnifidelidade.extensions.firstCharUpper
 import com.astetech.omnifidelidade.extensions.removeMask
-import com.astetech.omnifidelidade.models.Config
 import com.astetech.omnifidelidade.repository.Resultado
+import com.astetech.omnifidelidade.singleton.ClienteSingleton
 import com.astetech.omnifidelidade.ui.cadastro.CadastroViewModel
 import com.google.android.material.textfield.TextInputLayout
 import kotlinx.coroutines.*
@@ -29,7 +28,6 @@ class CredenciaisFragment : Fragment() {
     private val cadastroViewModel: CadastroViewModel by activityViewModels()
 
     private val args: CredenciaisFragmentArgs by navArgs()
-    private lateinit var celularArg: String
     private lateinit var telaAnterior: String
 
     private var _binding: FragmentCredenciaisBinding? = null
@@ -38,6 +36,8 @@ class CredenciaisFragment : Fragment() {
     private val navController: NavController by lazy {
         findNavController()
     }
+
+    private val celularNumero = ClienteSingleton.cliente.celular.removeMask()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -54,9 +54,8 @@ class CredenciaisFragment : Fragment() {
         listenToRegistrationStateEvent(validationFields)
         registerViewListeners()
         cancelAuthentication()
-        celularArg = args.cliente.celular.removeMask()
         telaAnterior = args.telaAnterior
-        enviaPin(celularArg)
+        enviaPin()
     }
 
     private fun initValidationFields() = mapOf(
@@ -80,7 +79,7 @@ class CredenciaisFragment : Fragment() {
                             Context.MODE_PRIVATE
                         )
                         with(pref!!.edit()) {
-                            putString("telefone", celularArg)
+                            putString("telefone", celularNumero)
                             apply()
                         }
                         navController.navigate(R.id.action_chooseCredentialsFragment_to_bonus)
@@ -99,10 +98,7 @@ class CredenciaisFragment : Fragment() {
                 when (resultado) {
                     is Resultado.Sucesso -> {
                         resultado.data?.let { cliente ->
-                            if (cliente.cadastrado) {
-                                Config.clienteId = cliente.clienteId
-                                Config.clienteNome = cliente.nomeCliente?.trim()?.split(" ")?.first()?.firstCharUpper()?: ""
-                            }
+                            ClienteSingleton.cliente = cliente.toClienteDomainModel()
                             cliente.cadastrado
                         } ?: false
                     }
@@ -136,7 +132,7 @@ class CredenciaisFragment : Fragment() {
         }
 
         binding.reenviarButton.setOnClickListener {
-            enviaPin(celularArg)
+            enviaPin()
             binding.reenviarButton.isEnabled = false
 
             lifecycleScope.launch {
@@ -150,8 +146,8 @@ class CredenciaisFragment : Fragment() {
                 binding.reenviarButton.isEnabled = true
     }
 
-    private fun enviaPin(celular: String) {
-        cadastroViewModel.enviaPin(celular).observe(viewLifecycleOwner) {
+    private fun enviaPin() {
+        cadastroViewModel.enviaPin(celularNumero).observe(viewLifecycleOwner) {
             var mensagem = ""
             val retorno = it?.let { resultado ->
                 when (resultado) {
@@ -175,7 +171,7 @@ class CredenciaisFragment : Fragment() {
     }
 
     private fun validaPin(pin: String) {
-        cadastroViewModel.validaPin(pin, celularArg).observe(viewLifecycleOwner) {
+        cadastroViewModel.validaPin(pin, celularNumero).observe(viewLifecycleOwner) {
             val validado = it?.let { resultado ->
                 when (resultado) {
                     is Resultado.Sucesso -> {

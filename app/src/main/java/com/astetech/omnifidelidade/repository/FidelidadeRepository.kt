@@ -2,11 +2,9 @@ package com.astetech.omnifidelidade.repository
 
 import android.util.Log
 import androidx.lifecycle.liveData
-import com.astetech.omnifidelidade.models.Cliente
 import com.astetech.omnifidelidade.models.Config
 import com.astetech.omnifidelidade.network.ClienteNetwork
 import com.astetech.omnifidelidade.network.FidelidadeNetwork
-import com.astetech.omnifidelidade.network.FidelidadeService
 import com.astetech.omnifidelidade.network.PinNetwork
 import com.google.gson.Gson
 import java.net.ConnectException
@@ -42,6 +40,27 @@ class FidelidadeRepository () {
                 emit(Resultado.Sucesso(data = resposta.body()))
             } else {
                 emit(Resultado.Erro(exception = Exception("Falha ao buscar o cliente")))
+            }
+        } catch (e: ConnectException) {
+            emit(Resultado.Erro(exception = Exception("Falha na comunicação com API")))
+        }
+        catch (e: Exception) {
+            emit(Resultado.Erro(exception = e))
+        }
+    }
+
+    fun alteraCliente(cliente: ClienteNetwork) = liveData {
+        try {
+
+            val gson = Gson()
+            var xxxx = gson.toJson(cliente)
+            Log.i("catalogo", xxxx)
+
+            val resposta = FidelidadeNetwork.fidelidade.alteraCliente(Config.token, Config.tenant , cliente)
+            if(resposta.isSuccessful){
+                emit(Resultado.Sucesso(data = resposta.body()))
+            } else {
+                emit(Resultado.Erro(exception = Exception("Falha ao alterar os dados do cliente")))
             }
         } catch (e: ConnectException) {
             emit(Resultado.Erro(exception = Exception("Falha na comunicação com API")))

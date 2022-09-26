@@ -6,12 +6,13 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.astetech.omnifidelidade.models.Cashback
+import com.astetech.omnifidelidade.models.Cliente
 import com.astetech.omnifidelidade.models.Config
 import com.astetech.omnifidelidade.network.*
+import com.astetech.omnifidelidade.singleton.ClienteSingleton
 import com.astetech.omnifidelidade.util.CashbackStatus
 import com.astetech.omnifidelidade.util.obterDataCorrente
 import com.astetech.omnifidelidade.util.stringToLocalDate
-
 import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
@@ -101,7 +102,7 @@ class CashbackViewModel() : ViewModel() {
             val callback = FidelidadeNetwork.fidelidade.buscaCashback(
                 Config.token,
                 Config.tenant,
-                Config.clienteId,
+                ClienteSingleton.cliente.id,
                 filtroBonus,
                 dataInicio,
                 dataFim

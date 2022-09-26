@@ -29,19 +29,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="Fulano, Bem vindo!" />
-
-            <ImageView
-                android:id="@+id/positivo"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:layout_margin="2dp"
-                android:visibility="gone"
-                android:contentDescription="Imagem"
-                android:importantForAccessibility="no"
-                android:src="@drawable/baseline_sentiment_very_satisfied_24"
-                app:layout_constraintBottom_toBottomOf="@+id/nome_text"
-                app:layout_constraintStart_toEndOf="@+id/nome_text"
-                tools:srcCompat="@drawable/baseline_sentiment_very_satisfied_24" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
