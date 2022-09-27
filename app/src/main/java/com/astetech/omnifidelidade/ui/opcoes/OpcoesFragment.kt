@@ -93,8 +93,8 @@ class OpcoesFragment : Fragment() {
 
         val builder = AlertDialog.Builder(applicationContext)
         with(builder) {
-            setTitle("Logout")
-            setMessage("Deseja realmente efetuar o logout?")
+            setTitle("Atenção!")
+            setMessage("Deseja realmente sair?")
             setPositiveButton("Sim", DialogInterface.OnClickListener(function = positiveButtonClick))
             setNegativeButton("Não", negativeButtonClick)
         }

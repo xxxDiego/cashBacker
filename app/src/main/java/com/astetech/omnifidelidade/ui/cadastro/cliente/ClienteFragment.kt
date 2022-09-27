@@ -1,5 +1,8 @@
 package com.astetech.omnifidelidade.ui.cadastro.cliente
 
+import android.app.AlertDialog
+import android.content.DialogInterface
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -158,6 +161,51 @@ class ClienteFragment : Fragment() {
     }
 
     private fun alteraCliente() {
+
+        if (cadastroViewModel.cliente.nome == ClienteSingleton.cliente.nome &&
+         cadastroViewModel.cliente.cpf.removeMask() == ClienteSingleton.cliente.cpf.removeMask() &&
+         cadastroViewModel.cliente.email == ClienteSingleton.cliente.email &&
+         cadastroViewModel.cliente.dataNascimento.removeMask() == ClienteSingleton.cliente.dataNascimento.removeMask()
+        ){
+            Toast.makeText(activity, "Edite algum dado antes de salvar!", Toast.LENGTH_SHORT).show()
+        }else{
+            alert()
+        }
+    }
+
+    private fun alert(){
+        val applicationContext = this.context
+
+        val positiveButtonClick = { _: DialogInterface, _: Int ->
+            realizarAlteracao()
+        }
+
+        val negativeButtonClick = { _: DialogInterface, _: Int ->
+        }
+
+        val builder = AlertDialog.Builder(applicationContext)
+        with(builder) {
+            setTitle("Atenção!")
+            setMessage("Deseja realmente alterar seus dados?")
+            setPositiveButton("Sim", DialogInterface.OnClickListener(function = positiveButtonClick))
+            setNegativeButton("Não", negativeButtonClick)
+        }
+        val alertDialog = builder.create()
+        alertDialog.show()
+
+
+        val positiveButton = alertDialog.getButton(DialogInterface.BUTTON_POSITIVE)
+        with(positiveButton) {
+            setTextColor(Color.BLUE)
+        }
+
+        val negativeButton = alertDialog.getButton(DialogInterface.BUTTON_NEGATIVE)
+        with(negativeButton) {
+            setTextColor(Color.BLUE)
+        }
+    }
+
+    private fun realizarAlteracao() {
         cadastroViewModel.alteraCliente().observe(viewLifecycleOwner) {
             var result = it?.let { resultado ->
                 when (resultado) {

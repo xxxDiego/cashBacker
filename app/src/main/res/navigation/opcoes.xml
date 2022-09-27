@@ -17,7 +17,7 @@
     <fragment
         android:id="@+id/clienteFragment"
         android:name="com.astetech.omnifidelidade.ui.cadastro.cliente.ClienteFragment"
-        android:label="Editar Dados"
+        android:label="Meus Dados"
         tools:layout="@layout/fragment_cliente" >
         <argument
             android:name="celular"
