@@ -12,6 +12,7 @@ import androidx.navigation.fragment.findNavController
 import com.astetech.omnifidelidade.R
 import com.astetech.omnifidelidade.databinding.FragmentCashbackListBinding
 import com.astetech.omnifidelidade.models.Cashback
+import com.astetech.omnifidelidade.ui.LoadingDialogFragment
 import com.astetech.omnifidelidade.ui.login.LoginViewModel
 import com.astetech.omnifidelidade.util.doubleToUi
 import com.astetech.omnifidelidade.util.stringToLocalDate

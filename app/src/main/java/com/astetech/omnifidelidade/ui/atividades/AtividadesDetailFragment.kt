@@ -10,8 +10,6 @@ import androidx.navigation.fragment.navArgs
 import coil.load
 import com.astetech.omnifidelidade.R
 import com.astetech.omnifidelidade.databinding.FragmentAtividadesDetailBinding
-import com.astetech.omnifidelidade.databinding.FragmentCashbackDetailBinding
-import com.astetech.omnifidelidade.ui.cashback.CashbackDetailFragmentArgs
 import com.astetech.omnifidelidade.util.doubleToUi
 
 

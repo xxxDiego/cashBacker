@@ -24,6 +24,7 @@ import com.astetech.omnifidelidade.extensions.removeMask
 import com.astetech.omnifidelidade.models.Config
 import com.astetech.omnifidelidade.repository.Resultado
 import com.astetech.omnifidelidade.singleton.ClienteSingleton
+import com.astetech.omnifidelidade.ui.LoadingDialogFragment
 import com.astetech.omnifidelidade.ui.cadastro.CadastroViewModel
 import com.astetech.omnifidelidade.ui.login.LoginFragmentDirections
 import com.astetech.omnifidelidade.ui.opcoes.OpcoesFragmentDirections
@@ -34,6 +35,7 @@ import com.google.android.material.textfield.TextInputLayout
 
 class ClienteFragment : Fragment() {
     private val cadastroViewModel: CadastroViewModel by activityViewModels()
+    private val loadingDialogFragment by lazy { LoadingDialogFragment() }
 
     private val args: ClienteFragmentArgs by navArgs()
 
@@ -206,6 +208,7 @@ class ClienteFragment : Fragment() {
     }
 
     private fun realizarAlteracao() {
+        LoadingDialogFragment.showLoader(loadingDialogFragment, parentFragmentManager)
         cadastroViewModel.alteraCliente().observe(viewLifecycleOwner) {
             var result = it?.let { resultado ->
                 when (resultado) {
@@ -221,6 +224,7 @@ class ClienteFragment : Fragment() {
                     }
                 }
             } ?: false
+            LoadingDialogFragment.hideLoader(loadingDialogFragment)
             if (result) {
                 Toast.makeText(activity, "Dados alterados com sucesso!", Toast.LENGTH_SHORT).show()
 

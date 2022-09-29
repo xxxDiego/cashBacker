@@ -2,6 +2,7 @@ package com.astetech.omnifidelidade.ui.opcoes
 
 
 import android.app.AlertDialog
+import android.content.Context
 import android.content.DialogInterface
 import android.content.res.Configuration
 import android.graphics.Color
@@ -61,15 +62,15 @@ class OpcoesFragment : Fragment() {
         binding.temaSwitch.setOnCheckedChangeListener{ _, isChecked ->
             if(isChecked){
                 AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_YES)
+                preferenciaModoNoturno(true)
             }else{
                 AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_NO)
+                preferenciaModoNoturno(false)
             }
         }
 
-        binding.nextText.setOnClickListener{
-
+        binding.perfilNextText.setOnClickListener{
             val directions = OpcoesFragmentDirections.actionOpcoesFragmentToClienteFragment(ClienteSingleton.cliente.celular)
-
             navController.navigate(directions)
         }
 
@@ -78,6 +79,17 @@ class OpcoesFragment : Fragment() {
         }
         binding.logoutLabel.setOnClickListener{
             alert()
+        }
+    }
+
+    private fun preferenciaModoNoturno(checado: Boolean){
+        val pref = activity?.getSharedPreferences(
+            getString(R.string.preference_file_key),
+            Context.MODE_PRIVATE
+        )
+        with(pref!!.edit()) {
+            putBoolean("modoNoturno", checado)
+            apply()
         }
     }
 

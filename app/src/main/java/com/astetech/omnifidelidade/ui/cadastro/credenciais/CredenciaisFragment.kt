@@ -19,6 +19,7 @@ import com.astetech.omnifidelidade.extensions.dismissError
 import com.astetech.omnifidelidade.extensions.removeMask
 import com.astetech.omnifidelidade.repository.Resultado
 import com.astetech.omnifidelidade.singleton.ClienteSingleton
+import com.astetech.omnifidelidade.ui.LoadingDialogFragment
 import com.astetech.omnifidelidade.ui.cadastro.CadastroViewModel
 import com.google.android.material.textfield.TextInputLayout
 import kotlinx.coroutines.*
@@ -26,6 +27,7 @@ import kotlinx.coroutines.*
 class CredenciaisFragment : Fragment() {
 
     private val cadastroViewModel: CadastroViewModel by activityViewModels()
+    private val loadingDialogFragment by lazy { LoadingDialogFragment() }
 
     private val args: CredenciaisFragmentArgs by navArgs()
     private lateinit var telaAnterior: String
@@ -38,6 +40,7 @@ class CredenciaisFragment : Fragment() {
     }
 
     private val celularNumero = ClienteSingleton.cliente.celular.removeMask()
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -93,6 +96,7 @@ class CredenciaisFragment : Fragment() {
     }
 
     private fun gravaCliente() {
+        LoadingDialogFragment.showLoader(loadingDialogFragment, parentFragmentManager)
         cadastroViewModel.gravaCliente().observe(viewLifecycleOwner) {
             var result = it?.let { resultado ->
                 when (resultado) {
@@ -107,6 +111,7 @@ class CredenciaisFragment : Fragment() {
                     }
                 }
             } ?: false
+            LoadingDialogFragment.hideLoader(loadingDialogFragment)
             if (result) {
                 navController.navigate(R.id.action_chooseCredentialsFragment_to_bonus)
             } else {
@@ -147,6 +152,7 @@ class CredenciaisFragment : Fragment() {
     }
 
     private fun enviaPin() {
+        LoadingDialogFragment.showLoader(loadingDialogFragment, parentFragmentManager)
         cadastroViewModel.enviaPin(celularNumero).observe(viewLifecycleOwner) {
             var mensagem = ""
             val retorno = it?.let { resultado ->
@@ -162,6 +168,7 @@ class CredenciaisFragment : Fragment() {
                     }
                 }
             } ?: false
+            LoadingDialogFragment.hideLoader(loadingDialogFragment)
             if (retorno) {
                 Toast.makeText(activity, "PIN enviado!", Toast.LENGTH_SHORT).show()
             } else {
@@ -171,6 +178,7 @@ class CredenciaisFragment : Fragment() {
     }
 
     private fun validaPin(pin: String) {
+        LoadingDialogFragment.showLoader(loadingDialogFragment, parentFragmentManager)
         cadastroViewModel.validaPin(pin, celularNumero).observe(viewLifecycleOwner) {
             val validado = it?.let { resultado ->
                 when (resultado) {
@@ -184,6 +192,7 @@ class CredenciaisFragment : Fragment() {
                     }
                 }
             } ?: false
+            LoadingDialogFragment.hideLoader(loadingDialogFragment)
             if (validado) {
                 cadastroViewModel.CreateRegistrationCompleted()
             } else {

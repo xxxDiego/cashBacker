@@ -134,8 +134,10 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:padding="4dp"
+                            android:fontFamily="@font/lato"
                             android:text="Ops!"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Display3"
+                            android:textIsSelectable="false"
                             android:textSize="24sp"
                             android:textStyle="bold"
                             app:layout_constraintBottom_toTopOf="@+id/sem_cash_text2"
@@ -148,14 +150,28 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:padding="4dp"
+                            android:fontFamily="@font/lato"
                             android:text="Você não possui nenhum cashback."
-                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                            android:textStyle="bold"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Display3"
+                            android:textIsSelectable="false"
+                            android:textSize="20sp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
                             tools:text="Você não possui nenhum cashback." />
+
+                        <com.airbnb.lottie.LottieAnimationView
+                            android:id="@+id/content_image"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/sem_cash_text2"
+                            app:lottie_autoPlay="true"
+                            app:lottie_loop="true"
+                            app:lottie_rawRes="@raw/not_found"
+                            app:lottie_url="REPLACE_JSON_URL" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </androidx.cardview.widget.CardView>

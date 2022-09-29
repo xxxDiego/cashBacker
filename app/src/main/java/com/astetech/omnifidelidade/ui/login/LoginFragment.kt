@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -15,9 +16,11 @@ import com.astetech.omnifidelidade.R
 import com.astetech.omnifidelidade.databinding.FragmentLoginBinding
 import com.astetech.omnifidelidade.extensions.dismissError
 import com.astetech.omnifidelidade.extensions.removeMask
-import com.astetech.omnifidelidade.models.Cliente
 import com.astetech.omnifidelidade.repository.Resultado
 import com.astetech.omnifidelidade.singleton.ClienteSingleton
+import com.astetech.omnifidelidade.ui.LoadingDialogFragment
+import com.astetech.omnifidelidade.ui.LoadingDialogFragment.Companion.hideLoader
+import com.astetech.omnifidelidade.ui.LoadingDialogFragment.Companion.showLoader
 import com.github.rtoshiro.util.format.SimpleMaskFormatter
 import com.github.rtoshiro.util.format.text.MaskTextWatcher
 import com.google.android.material.textfield.TextInputLayout
@@ -35,6 +38,11 @@ class LoginFragment : Fragment() {
 
     private var directions: NavDirections? = null
 
+    //Initialize Loader
+    private val loadingDialogFragment by lazy { LoadingDialogFragment() }
+    private var cellphone = ""
+
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -50,8 +58,30 @@ class LoginFragment : Fragment() {
         listenToAuthenticationStateEvent(validationFields)
         registerViewListeners()
         cancelAuthentication()
-        binding.inputCelular.setText("(11) 99485-4564")
+        configuracoesIniciais()
+
     }
+
+    private fun configuracoesIniciais() {
+        val pref = activity?.getSharedPreferences(
+            getString(R.string.preference_file_key),
+            Context.MODE_PRIVATE
+        )
+        cellphone = pref?.getString("telefone", "") ?: ""
+        var checado: Boolean = pref?.getBoolean("modoNoturno",false) == true
+
+        if(checado){
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+        }else{
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+
+        }
+
+        if (!cellphone.isNullOrEmpty()) {
+            binding.inputCelular.setText(cellphone)
+        }
+    }
+
 
     private fun initValidationFields() = mapOf(
         LoginViewModel.INPUT_CELULAR.first to binding.inputLayoutCelular
@@ -91,12 +121,14 @@ class LoginFragment : Fragment() {
         }
     }
 
+
     private fun cancelAuthentication() {
         viewModel.refuseAuthentication()
         binding.inputLayoutCelular.dismissError()
     }
 
     private fun buscaCliente(celular: String) {
+        showLoader(loadingDialogFragment,parentFragmentManager)
 
         viewModel.buscaUsuario(celular).observe(viewLifecycleOwner) {
             val cadastrado = it?.let { resultado ->
@@ -116,16 +148,11 @@ class LoginFragment : Fragment() {
                     }
                 }
             } ?: false
-            val pref = activity?.getSharedPreferences(
-                getString(R.string.preference_file_key),
-                Context.MODE_PRIVATE
-            )
-            val cellphone = pref?.getString("telefone", "")
 
-            if (cadastrado) {
+            hideLoader(loadingDialogFragment)
 
-                //if (clienteAtual.celular == cellphone) {
-                if (true) {
+            if (cadastrado){
+                if (binding.inputCelular.text.toString().removeMask() == cellphone) {
                     directions = LoginFragmentDirections.actionLoginFragmentToBonus()
                     navController.navigate(directions!!)
                 } else {
@@ -134,7 +161,6 @@ class LoginFragment : Fragment() {
                     navController.navigate(directions!!)
                 }
             } else {
-                ClienteSingleton.cliente = Cliente()
                 directions =
                     LoginFragmentDirections.actionLoginFragmentToProfileDataFragment(binding.inputCelular.text.toString())
                 navController.navigate(directions!!)

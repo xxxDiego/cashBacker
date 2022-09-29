@@ -10,7 +10,7 @@
     <!-- App Menu -->
     <string name="app_menu_home">Home</string>
     <string name="app_menu_atividades">Extrato</string>
-    <string name="app_menu_notificacoes">Notificacoes</string>
+    <string name="app_menu_notificacoes">Notificações</string>
     <string name="app_menu_mais">Mais</string>
 
     <!-- atividades Fragment -->
@@ -59,7 +59,9 @@
     <string name="credenciais_reenviar_button">Reenviar PIN</string>
     <string name="credenciais_text_name">%1$s, Bem Vindo!</string>
 
-<!--    opcoes-->
+    <!--    opcoes-->
     <string name="opcoes_text_name">Olá, %1$s </string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

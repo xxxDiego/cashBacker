@@ -77,18 +77,34 @@
                 app:layoutManager="LinearLayoutManager"
                 tools:listitem="@layout/cashback_item" />
 
-            <ImageView
-                android:id="@+id/content_image"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="fitXY"
-                android:src="@drawable/no_cashback_wide"
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/not_found_animation"
+                android:layout_width="250dp"
+                android:layout_height="250dp"
+                android:layout_marginTop="150dp"
                 android:visibility="gone"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:srcCompat="@drawable/no_cashback_wide" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/recycler_view"
+                app:lottie_autoPlay="true"
+                app:lottie_loop="true"
+                app:lottie_rawRes="@raw/not_found"
+                app:lottie_url="REPLACE_JSON_URL" />
+
+            <TextView
+                android:id="@+id/not_found_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/lato"
+                android:visibility="gone"
+                android:text="Nenhuma atividade por aqui!"
+                android:textAlignment="center"
+                android:textIsSelectable="false"
+                android:textSize="20sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/not_found_animation"
+                tools:text="Nenhuma atividade por aqui!" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
 </LinearLayout>

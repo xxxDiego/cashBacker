@@ -4,36 +4,37 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.cashback.CashbackListFragment">
-
+    android:layout_height="match_parent">
 
     <com.airbnb.lottie.LottieAnimationView
-        android:id="@+id/animationView"
-        android:layout_width="250dp"
-        android:layout_height="250dp"
-        android:layout_marginTop="200dp"
+        android:id="@+id/lottieAnimationView"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_gravity="center"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:lottie_autoPlay="true"
         app:lottie_loop="true"
-        app:lottie_rawRes="@raw/no_notification"
-        app:lottie_url="REPLACE_JSON_URL" />
+        app:lottie_rawRes="@raw/pac_loading_animation" />
 
     <TextView
-        android:id="@+id/notificacoes_label"
+        android:id="@+id/loading_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Sem notificações por enquanto..."
+        android:text="Carregando..."
+        android:paddingStart="15dp"
         android:textAlignment="center"
-        android:textIsSelectable="false"
         android:textSize="20sp"
         android:fontFamily="@font/lato"
+        android:textStyle="bold"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display3"
+        android:textColor="@color/primaryDarkColor"
+        android:textIsSelectable="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/animationView"
-        tools:text="Sem notificações por enquanto..." />
-
+        app:layout_constraintTop_toBottomOf="@+id/lottieAnimationView"
+        tools:text="Carregando..." />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

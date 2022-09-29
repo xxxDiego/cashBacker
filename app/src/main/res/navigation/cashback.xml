@@ -16,7 +16,7 @@
     </fragment>
     <fragment
         android:id="@+id/cashbackDetailFragment"
-        android:name="com.astetech.omnifidelidade.ui.cashback.CashbackDetailFragment"
+        android:name="com.astetech.omnifidelidade.ui.opcoes.RegrasFragment"
         android:label="@string/cashback_datail_screen_title">
         <argument
             android:name="cashback"

@@ -66,11 +66,15 @@ class AtividadesListFragment :Fragment(), CashbackClickListener {
         cashbackviewModel.cashbackListLive.observe(viewLifecycleOwner, Observer<List<Cashback>> { bonus ->
 
             if (bonus.isNotEmpty()){
-                _binding?.contentImage?.visibility = View.GONE
+                _binding?.notFoundAnimation?.visibility = View.GONE
+                _binding?.notFoundLabel?.visibility = View.GONE
+
                 atividadesAdapter.submitList(bonus)
             }
             else{
-                _binding?.contentImage?.visibility = View.VISIBLE
+                _binding?.notFoundAnimation?.visibility = View.VISIBLE
+                _binding?.notFoundLabel?.visibility = View.VISIBLE
+                atividadesAdapter.submitList(bonus)
             }
         })
 
