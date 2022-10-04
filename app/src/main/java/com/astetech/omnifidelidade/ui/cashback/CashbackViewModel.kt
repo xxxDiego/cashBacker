@@ -1,27 +1,19 @@
 package com.astetech.omnifidelidade.ui.cashback
 
-import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.astetech.omnifidelidade.models.Cashback
-import com.astetech.omnifidelidade.models.Cliente
-import com.astetech.omnifidelidade.models.Config
-import com.astetech.omnifidelidade.network.*
-import com.astetech.omnifidelidade.singleton.ClienteSingleton
+import com.astetech.omnifidelidade.network.response.BuscaCashbackResponseContainer
+import com.astetech.omnifidelidade.repository.FidelidadeRepository
+import com.astetech.omnifidelidade.repository.Resultado
 import com.astetech.omnifidelidade.util.CashbackStatus
 import com.astetech.omnifidelidade.util.obterDataCorrente
 import com.astetech.omnifidelidade.util.stringToLocalDate
 import kotlinx.coroutines.launch
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import java.io.IOException
 
 class CashbackViewModel() : ViewModel() {
 
     private val TAG = "CashbackViewModel"
+    private val repository =  FidelidadeRepository()
 
     private var _cashbackListLive = MutableLiveData<List<Cashback>>()
     val cashbackListLive: LiveData<List<Cashback>>
@@ -38,6 +30,10 @@ class CashbackViewModel() : ViewModel() {
     private var _isNetworkErrorShown = MutableLiveData<Boolean>(false)
     val isNetworkErrorShown: LiveData<Boolean>
         get() = _isNetworkErrorShown
+
+    private lateinit var _status: CashbackStatus
+    val status: CashbackStatus
+    get() = _status
 
 
     init {
@@ -63,6 +59,7 @@ class CashbackViewModel() : ViewModel() {
                             c.valorUtilizado == 0.0
                     }
 
+                _status = CashbackStatus.ATIVOS
                 _cashbackListLive.postValue(filtered)
             }
             CashbackStatus.EXPIRADOS -> {
@@ -70,11 +67,13 @@ class CashbackViewModel() : ViewModel() {
                     _cashbackList.filter { c -> stringToLocalDate(c.dataValidade) < dataCorrente &&
                             c.valorUtilizado == 0.0
                     }
+                _status = CashbackStatus.EXPIRADOS
                 _cashbackListLive.postValue(filtered)
             }
             CashbackStatus.RESGATADOS -> {
                 val filtered =
                     _cashbackList.filter { c -> c.valorUtilizado > 0.0 }
+                _status = CashbackStatus.RESGATADOS
                 _cashbackListLive.postValue(filtered)
             }
             CashbackStatus.PENDENTES -> {
@@ -83,9 +82,11 @@ class CashbackViewModel() : ViewModel() {
                         stringToLocalDate(c.dataAtivacao) > dataCorrente &&
                                 c.valorUtilizado == 0.0
                     }
+                _status = CashbackStatus.PENDENTES
                 _cashbackListLive.postValue(filtered)
             }
             else -> {
+                _status = CashbackStatus.TODOS
                 _cashbackListLive.postValue(_cashbackList)
             }
         }
@@ -93,50 +94,21 @@ class CashbackViewModel() : ViewModel() {
 
 
     fun refreshDataFromNetwork() = viewModelScope.launch {
-        try {
+        val result = repository.BuscaCashback()
+        result.asFlow().collect { resultado ->
+            when (resultado) {
+                is Resultado.Sucesso -> {
+                    resultado.data?.let {
+                        val cashbackRetorno = BuscaCashbackResponseContainer(it).toCashbackDomainModel()
 
-            val filtroBonus = "Todos"
-            val dataInicio = "2022-01-01"
-            val dataFim = "2022-12-01"
-
-            val callback = FidelidadeNetwork.fidelidade.buscaCashback(
-                Config.token,
-                Config.tenant,
-                ClienteSingleton.cliente.id,
-                filtroBonus,
-                dataInicio,
-                dataFim
-            )
-
-            callback.enqueue(object : Callback<List<CashbackNetwork>> {
-                override fun onFailure(call: Call<List<CashbackNetwork>>, t: Throwable) {
-                    Log.e(TAG, t.message.toString())
-                }
-
-                override fun onResponse(
-                    call: Call<List<CashbackNetwork>>,
-                    response: Response<List<CashbackNetwork>>
-                ) {
-                    if (response.isSuccessful) {
-                        response.body()?.let {
-                            val cashbackRetorno = NetworkCashbackContainer(it).asDomainModel()
-
-                            _cashbackList = cashbackRetorno.filter { c-> c.valor > 0 }
-                                .sortedByDescending { c -> stringToLocalDate(c.dataValidade) }
-                            _cashbackListLive.postValue(_cashbackList)
-
-
-                            _eventNetworkError.value = false
-                            _isNetworkErrorShown.value = false
-                        }
-                    } else {
-                        Log.e(TAG, response.raw().toString())
+                        _cashbackList = cashbackRetorno.filter { c -> c.valor > 0 }
+                            .sortedByDescending { c -> stringToLocalDate(c.dataValidade) }
+                        _status = CashbackStatus.TODOS
+                        _cashbackListLive.postValue(_cashbackList)
                     }
                 }
-            })
-        } catch (networkError: IOException) {
-            Log.e(TAG, networkError.message.toString())
-            _eventNetworkError.value = true
+                else -> {}
+            }
         }
     }
 }

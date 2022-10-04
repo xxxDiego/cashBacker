@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -10,10 +11,6 @@
     android:textAlignment="center"
     tools:context=".ui.cadastro.credenciais.CredenciaisFragment">
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="70dp" />
-
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/textChooseCredentialsName"
@@ -22,34 +19,44 @@
         android:textAlignment="center"
         android:textSize="30sp"
         android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         tools:text="Fulano, Bem Vindo!" />
 
     <com.google.android.material.divider.MaterialDivider
+        android:id="@+id/materialDivider4"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textChooseCredentialsName" />
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="80dp" />
 
     <TextView
+        android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
         android:text="Insira o PIN enviado para o seu celular"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        app:layout_constraintBottom_toTopOf="@+id/inputLayoutPin"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         tools:text="Insira o PIN enviado para o seu celular" />
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="50dp" />
 
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/inputLayoutPin"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/inputPin"
@@ -63,29 +70,35 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
+        android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:text="Caso não receba nos próximos minutos clique no botão reenviar PIN."
-        android:layout_marginTop="10dp"
-        tools:text="Caso não receba nos próximos minutos clique no botão reenviar PIN."
-        />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/inputLayoutPin"
+        tools:text="Caso não receba nos próximos minutos clique no botão reenviar PIN." />
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="50dp" />
 
     <Button
         android:id="@+id/buttonChooseCredentialsNext"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/forms_default_margin_top"
-        android:text="@string/common_finish" />
+        android:text="@string/common_finish"
+        app:layout_constraintBottom_toTopOf="@+id/reenviar_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/reenviar_button"
         style="?attr/materialButtonOutlinedStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/credenciais_reenviar_button" />
+        android:layout_marginBottom="20dp"
+        android:text="@string/credenciais_reenviar_button"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

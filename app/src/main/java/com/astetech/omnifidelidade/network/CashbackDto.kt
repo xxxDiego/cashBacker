@@ -6,7 +6,11 @@ import com.astetech.omnifidelidade.models.Config
 import com.google.gson.annotations.SerializedName
 
 
-data class NetworkCashbackContainer(val videos: List<CashbackNetwork>)
+data class NetworkCashbackContainer(
+
+    val videos: List<CashbackNetwork>
+
+    )
 
 data class CashbackNetwork(
     @field:SerializedName("loja") val loja: String,

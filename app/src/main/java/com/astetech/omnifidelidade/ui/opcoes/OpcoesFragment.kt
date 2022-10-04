@@ -74,6 +74,11 @@ class OpcoesFragment : Fragment() {
             navController.navigate(directions)
         }
 
+        binding.regraNextText.setOnClickListener {
+            val directions = OpcoesFragmentDirections.actionOpcoesFragmentToRegrasFragment()
+            navController.navigate(directions)
+        }
+
         binding.logoutImage.setOnClickListener{
             alert()
         }

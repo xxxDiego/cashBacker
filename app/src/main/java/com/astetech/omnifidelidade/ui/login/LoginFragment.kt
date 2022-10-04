@@ -28,6 +28,7 @@ import com.google.android.material.textfield.TextInputLayout
 class LoginFragment : Fragment() {
 
     private val viewModel: LoginViewModel by activityViewModels()
+    private val loadingDialogFragment by lazy { LoadingDialogFragment() }
 
     private var _binding: FragmentLoginBinding? = null
     private val binding get() = _binding!!
@@ -38,8 +39,6 @@ class LoginFragment : Fragment() {
 
     private var directions: NavDirections? = null
 
-    //Initialize Loader
-    private val loadingDialogFragment by lazy { LoadingDialogFragment() }
     private var cellphone = ""
 
 

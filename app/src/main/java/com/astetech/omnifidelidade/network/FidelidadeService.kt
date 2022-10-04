@@ -1,7 +1,5 @@
 package com.astetech.omnifidelidade.network
-import com.astetech.omnifidelidade.network.response.BuscaClienteResponse
-import com.astetech.omnifidelidade.network.response.ClientePostResponse
-import com.astetech.omnifidelidade.network.response.ValidaPinResponse
+import com.astetech.omnifidelidade.network.response.*
 import retrofit2.Call
 import retrofit2.Response
 import retrofit2.Retrofit
@@ -9,17 +7,6 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.*
 
 interface FidelidadeService {
-
-    @GET("Relatorio/cliente/detalhe")
-     fun buscaCashback(
-        @Header("Authorization") authHeader: String?,
-        @Header("tenant") tenant: String?,
-        @Query("clienteId") clienteId: String,
-        @Query("filtroBonus") filtroBonus: String,
-        @Query("dataInicio") dataInicio: String,
-        @Query("dataFim") dataFim: String,
-    ): Call<List<CashbackNetwork>>
-
 
      @GET("cliente/{telefone}")
     suspend fun buscaCliente(
@@ -56,6 +43,16 @@ interface FidelidadeService {
         @Header("tenant") tenant: String,
         @Body pin: PinNetwork
     ): Response<ValidaPinResponse>
+
+    @GET("Relatorio/cliente/detalhe")
+    suspend fun buscaCashback(
+        @Header("Authorization") authHeader: String?,
+        @Header("tenant") tenant: String?,
+        @Query("clienteId") clienteId: String,
+        @Query("filtroBonus") filtroBonus: String,
+        @Query("dataInicio") dataInicio: String,
+        @Query("dataFim") dataFim: String,
+    ): Response<ArrayList<BuscaCashbackResponse>>
 
 }
 

@@ -31,7 +31,7 @@
         <entry key="..\:/Labs/omnifidelidade/app/src/main/res/layout/cashback_item.xml" value="0.33" />
         <entry key="..\:/Labs/omnifidelidade/app/src/main/res/layout/fragment_atividades.xml" value="0.2942708333333333" />
         <entry key="..\:/Labs/omnifidelidade/app/src/main/res/layout/fragment_atividades_detail.xml" value="0.33" />
-        <entry key="..\:/Labs/omnifidelidade/app/src/main/res/layout/fragment_atividades_list.xml" value="0.33" />
+        <entry key="..\:/Labs/omnifidelidade/app/src/main/res/layout/fragment_atividades_list.xml" value="0.18" />
         <entry key="..\:/Labs/omnifidelidade/app/src/main/res/layout/fragment_bonus.xml" value="0.36666666666666664" />
         <entry key="..\:/Labs/omnifidelidade/app/src/main/res/layout/fragment_cashback_detail.xml" value="0.2796875" />
         <entry key="..\:/Labs/omnifidelidade/app/src/main/res/layout/fragment_cashback_list.xml" value="0.2989583333333333" />
@@ -44,6 +44,7 @@
         <entry key="..\:/Labs/omnifidelidade/app/src/main/res/layout/fragment_opcoes.xml" value="0.3" />
         <entry key="..\:/Labs/omnifidelidade/app/src/main/res/layout/fragment_profile.xml" value="0.29322916666666665" />
         <entry key="..\:/Labs/omnifidelidade/app/src/main/res/layout/fragment_profile_data.xml" value="0.22083333333333333" />
+        <entry key="..\:/Labs/omnifidelidade/app/src/main/res/layout/fragment_regras.xml" value="0.2609375" />
         <entry key="..\:/Labs/omnifidelidade/app/src/main/res/menu/app_menu_items.xml" value="0.29322916666666665" />
         <entry key="..\:/Labs/omnifidelidade2/app/src/main/res/layout/cashback_item.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/lllnewlll/Source/Repos/omnifidelidade/app/src/main/res/layout/activity_main.xml" value="0.25" />
@@ -60,5 +61,12 @@
   </component>
   <component name="ProjectType">
     <option name="id" value="Android" />
+  </component>
+  <component name="VisualizationToolProject">
+    <option name="state">
+      <ProjectState>
+        <option name="scale" value="0.33" />
+      </ProjectState>
+    </option>
   </component>
 </project>

@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.adapters.TextViewBindingAdapter.setText
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
@@ -52,6 +53,7 @@ class AtividadesListFragment :Fragment(), CashbackClickListener {
         initCashbackAdapter()
         initViewListeners()
         initList()
+
     }
 
     private fun initCashbackAdapter() {
@@ -74,6 +76,7 @@ class AtividadesListFragment :Fragment(), CashbackClickListener {
             else{
                 _binding?.notFoundAnimation?.visibility = View.VISIBLE
                 _binding?.notFoundLabel?.visibility = View.VISIBLE
+                _binding?.notFoundLabel?.text = mensagem()
                 atividadesAdapter.submitList(bonus)
             }
         })
@@ -90,6 +93,26 @@ class AtividadesListFragment :Fragment(), CashbackClickListener {
     private fun initList() {
         val title = binding.chipsGroup.findViewById<Chip>(binding.chipsGroup.checkedChipId).text.toString()
         fillList(title)
+    }
+
+    private fun mensagem(): String{
+        when(cashbackviewModel.status){
+            CashbackStatus.ATIVOS->{
+                return "Você não possui nenhum casback Ativo!"
+            }
+            CashbackStatus.PENDENTES->{
+                return "Você não possui nenhum casback Pendente!"
+            }
+            CashbackStatus.EXPIRADOS->{
+                return "Você não possui nenhum casback Expirado!"
+            }
+            CashbackStatus.RESGATADOS->{
+                return "Você não possui nenhum casback Resgatado!"
+            }
+            CashbackStatus.TODOS->{
+                return "Você não possui nenhum casback!"
+            }
+        }
     }
 
     private fun fillList(title: String) {
