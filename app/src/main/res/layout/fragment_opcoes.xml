@@ -135,12 +135,12 @@
                     android:layout_marginStart="32dp"
                     android:ellipsize="end"
                     android:singleLine="true"
-                    android:text="Regras das campanhas"
+                    android:text="Regulamento"
                     android:textSize="15dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/regra_image"
                     app:layout_constraintTop_toTopOf="parent"
-                    tools:text="Regras das campanhas" />
+                    tools:text="Regulamento" />
 
                 <TextView
                     android:id="@+id/regra_next_text"

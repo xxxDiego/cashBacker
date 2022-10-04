@@ -30,5 +30,5 @@
     <fragment
         android:id="@+id/regrasFragment"
         android:name="com.astetech.omnifidelidade.ui.opcoes.RegrasFragment"
-        android:label="RegrasFragment" />
+        android:label="Regras das Campanhas" />
 </navigation>

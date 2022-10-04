@@ -31,7 +31,7 @@ class CashbackViewModel() : ViewModel() {
     val isNetworkErrorShown: LiveData<Boolean>
         get() = _isNetworkErrorShown
 
-    private lateinit var _status: CashbackStatus
+    private var _status: CashbackStatus = CashbackStatus.TODOS
     val status: CashbackStatus
     get() = _status
 

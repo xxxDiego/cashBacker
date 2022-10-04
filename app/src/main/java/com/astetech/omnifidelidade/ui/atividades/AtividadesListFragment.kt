@@ -98,19 +98,19 @@ class AtividadesListFragment :Fragment(), CashbackClickListener {
     private fun mensagem(): String{
         when(cashbackviewModel.status){
             CashbackStatus.ATIVOS->{
-                return "Você não possui nenhum casback Ativo!"
+                return "Você não possui nenhum cashback ativo."
             }
             CashbackStatus.PENDENTES->{
-                return "Você não possui nenhum casback Pendente!"
+                return "Você não possui nenhum casback pendente."
             }
             CashbackStatus.EXPIRADOS->{
-                return "Você não possui nenhum casback Expirado!"
+                return "Você não possui nenhum casback expirado."
             }
             CashbackStatus.RESGATADOS->{
-                return "Você não possui nenhum casback Resgatado!"
+                return "Você não possui nenhum casback resgatado."
             }
             CashbackStatus.TODOS->{
-                return "Você não possui nenhum casback!"
+                return "Você não possui nenhum cashback."
             }
         }
     }
