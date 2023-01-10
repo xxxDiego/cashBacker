@@ -14,7 +14,7 @@ object Config {
                Imagem("Jansport", "https://infracommerce.blob.core.windows.net/app-imagens/logo-jansport2.png"),
                Imagem("Diesel", "https://infracommerce.blob.core.windows.net/app-imagens/diesel-1.png"),
                Imagem("Kipling", "https://aste.blob.core.windows.net/app-images/kipling.png"),
-               Imagem("Coach", "https://infracommerce.blob.core.windows.net/app-imagens/logo-allbags.png"),
+               Imagem("Coach", "https://aste.blob.core.windows.net/coach/logo-black.jpg"),
                Imagem("Allbags", "https://infracommerce.blob.core.windows.net/app-imagens/logo-allbags.png")
           )
 
